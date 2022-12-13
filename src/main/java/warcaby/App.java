@@ -12,6 +12,7 @@ public class App extends Application{
         stage.setTitle("Warcaby");
 
         Pane root = new Pane();
+        root.setPrefSize(1000, 1000);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
