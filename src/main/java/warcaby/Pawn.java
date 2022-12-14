@@ -52,7 +52,6 @@ public class Pawn extends Circle{
                 double dx = event.getX() - x;
                 double dy = event.getY() - y;
 
-                // jesli figura jest aktywna to zezwalamy na zmiane polozenie
                 pawn.addX(dx);
                 pawn.addY(dy);
                 x += dx;

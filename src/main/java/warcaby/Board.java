@@ -26,6 +26,7 @@ public class Board {
 
         Pane pane = new Pane();
         root.setCenter(pane);
+        Pawn pawn = new Pawn(0,0,20,pane);
 
 
         for( int i = 0; i <  width; i++){
@@ -33,9 +34,10 @@ public class Board {
                 Kafelek kafelek = new Kafelek(i, j, bol);
                 //grid.add(kafelek, i, j);
                 pane.getChildren().add(kafelek);
+
             }
         }
-
+        pane.getChildren().add(pawn);
         return root;
     }
 }
