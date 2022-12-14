@@ -13,7 +13,7 @@ public class App extends Application{
     Board board = new Board();
 
     public void start(Stage stage) throws Exception{
-        border = board.createBoard(8 ,true);
+        border = board.createBoard(8,true);
 
         Scene scene = new Scene(border);
         stage.setScene(scene);
