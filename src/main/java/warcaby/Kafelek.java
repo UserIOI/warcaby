@@ -5,7 +5,6 @@ import javafx.scene.shape.Rectangle;
 
 public class Kafelek extends Rectangle{
 
-
     public Kafelek(int x, int y, Boolean bol){
         setWidth(100);
         setHeight(100);
