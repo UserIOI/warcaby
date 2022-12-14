@@ -1,3 +1,5 @@
 warcaby\Board.class
 warcaby\Kafelek.class
+warcaby\Pawn$PawnEventHandler.class
+warcaby\Pawn.class
 warcaby\App.class

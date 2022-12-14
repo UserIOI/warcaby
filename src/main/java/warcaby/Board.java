@@ -4,6 +4,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
+import javafx.scene.layout.Pane;
 
 public class Board {
     
@@ -21,14 +22,17 @@ public class Board {
 
         root.setBottom(toolbar);
 
-        GridPane grid = new GridPane();
-        root.setCenter(grid);
+        //GridPane grid = new GridPane();
+
+        Pane pane = new Pane();
+        root.setCenter(pane);
 
 
         for( int i = 0; i <  width; i++){
             for( int j = 0; j < width; j++){
                 Kafelek kafelek = new Kafelek(i, j, bol);
-                grid.add(kafelek, i, j);
+                //grid.add(kafelek, i, j);
+                pane.getChildren().add(kafelek);
             }
         }
 
