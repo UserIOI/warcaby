@@ -1,18 +1,25 @@
 package warcaby;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
 
 public class Board {
     
     /* 
      * width - szerokosc planszy jako ilosc pol
+     * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
     */
-    public BorderPane createBoard(int width){
+    public BorderPane createBoard(int width, Boolean bol){
         BorderPane root = new BorderPane();
         root.setPrefSize(width * 100, width * 100);
+
+        ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
+        // Button Poddajbutton = new Button("Poddaj sie");
+        // Button remisButton = new Button("Remis");
+
+        root.setBottom(toolbar);
 
         GridPane grid = new GridPane();
         root.setCenter(grid);
@@ -20,15 +27,11 @@ public class Board {
 
         for( int i = 0; i <  width; i++){
             for( int j = 0; j < width; j++){
-                // area 
+                Kafelek kafelek = new Kafelek(i, j, bol);
+                grid.add(kafelek, i, j);
             }
         }
 
-
-        
-
-        //ruch
-        
         return root;
     }
 }
