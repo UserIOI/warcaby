@@ -1,5 +1,8 @@
 package warcaby;
 
+// import java.awt.Color;
+import javafx.scene.paint.Color;
+import warcaby.Kafelek.kolorKafelka;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
@@ -7,7 +10,14 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
 public class Board {
+
+    Kafelek[][] tablica = new Kafelek[8][8];
     
+    private int toBoard(double pixel){
+        //System.out.println(pixel);
+        return (int)((pixel)/100);
+    }
+
     /* 
      * width - szerokosc planszy jako ilosc pol
      * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
@@ -26,20 +36,73 @@ public class Board {
 
         Pane pane = new Pane();
         root.setCenter(pane);
-        Pawn pawn = new Pawn(50,50,40,pane);
-        Pawn pawn1 = new Pawn(150,50,40,pane);
 
+        // Pawn pawn = new Pawn(50,50,25);
+        // pawn.setColor(Color.valueOf("#c40003"));
+        // pawn.setOnMouseReleased(e -> {
+        //     int newX = toBoard(e.getSceneX());
+        //     int newY = toBoard(e.getSceneY());
+        //     System.out.println("X: " + newX + " Y: " + newY);
+        //     System.out.println(tablica[newX][newY].jakiKolor());
+        //     if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY)
+        //         pawn.move(newX, newY);
+        //     else pawn.abortMove();
+        // });
 
+        /* 
+         * Tworzenie planszy 
+         */
         for( int i = 0; i <  width; i++){
             for( int j = 0; j < width; j++){
                 Kafelek kafelek = new Kafelek(i, j, bol);
-                //grid.add(kafelek, i, j);
                 pane.getChildren().add(kafelek);
+                tablica[i][j] = kafelek;
 
             }
         }
-        pane.getChildren().add(pawn);
-        pane.getChildren().add(pawn1);
+        /*
+         * Dodawanie pionkow
+         */
+        for( int i = 7; i >= 0; i--){
+            for( int j = 7; j >= 0; j--){
+                if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j < 3)){
+
+                    Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
+
+                    pionek.setColor(Color.valueOf("#c40003"));
+
+                    pane.getChildren().add(pionek);
+
+                    pionek.setOnMouseReleased(e -> {
+                        int newX = toBoard(e.getSceneX());
+                        int newY = toBoard(e.getSceneY());
+                        System.out.println("X: " + newX + " Y: " + newY);
+                        System.out.println(tablica[newX][newY].jakiKolor());
+                        if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY)
+                            pionek.move(newX, newY);
+                        else pionek.abortMove();
+                    });
+                }
+                else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > 4 )){
+                    Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
+
+                    pionek.setColor(Color.valueOf("#fff9f4"));
+
+                    pane.getChildren().add(pionek);
+
+                    pionek.setOnMouseReleased(e -> {
+                        int newX = toBoard(e.getSceneX());
+                        int newY = toBoard(e.getSceneY());
+                        System.out.println("X: " + newX + " Y: " + newY);
+                        System.out.println(tablica[newX][newY].jakiKolor());
+                        if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY)
+                            pionek.move(newX, newY);
+                        else pionek.abortMove();
+                    });
+                }
+            }
+        }
+        //pane.getChildren().add(pawn);
         return root;
     }
 }

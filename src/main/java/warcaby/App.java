@@ -3,8 +3,8 @@ package warcaby;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
-
 
 public class App extends Application{
 
