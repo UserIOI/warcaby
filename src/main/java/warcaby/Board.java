@@ -12,22 +12,32 @@ public class Board {
      * width - szerokosc planszy jako ilosc pol
      * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
     */
-    public BorderPane createBoard(int width, Boolean bol){
-        BorderPane root = new BorderPane();
-        root.setPrefSize(width * 100, width * 100);
+    private int toBoard(double pixel){
+        System.out.println(pixel);
+        return (int)((pixel)/100);
+    }
+    public Pane createBoard(int width, Boolean bol){
+        //BorderPane root = new BorderPane();
+        //root.setPrefSize(width * 100, width * 100);
 
-        ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
+        //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
         // Button Poddajbutton = new Button("Poddaj sie");
         // Button remisButton = new Button("Remis");
 
-        root.setBottom(toolbar);
+        //root.setBottom(toolbar);
 
         //GridPane grid = new GridPane();
 
         Pane pane = new Pane();
-        root.setCenter(pane);
-        Pawn pawn = new Pawn(50,50,40,pane);
-        Pawn pawn1 = new Pawn(150,50,40,pane);
+        //root.setCenter(pane);
+
+        Pawn pawn = new Pawn(50,50,25,pane);
+        pawn.setOnMouseReleased(e -> {
+            int newX = toBoard(e.getSceneX());
+            int newY = toBoard(e.getSceneY());
+            System.out.println(newX + " Y: " + newY);
+            pawn.move(newX, newY);
+        });
 
 
         for( int i = 0; i <  width; i++){
@@ -39,7 +49,6 @@ public class Board {
             }
         }
         pane.getChildren().add(pawn);
-        pane.getChildren().add(pawn1);
-        return root;
+        return pane;
     }
 }

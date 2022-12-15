@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 
 public class App extends Application{
 
-    BorderPane border = new BorderPane();
+    Pane border = new Pane();
     Board board = new Board();
 
     public void start(Stage stage) throws Exception{
