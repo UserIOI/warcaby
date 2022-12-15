@@ -18,9 +18,11 @@ public class Pawn extends Circle{
     /** konstruktor dziedziczymy po klasie Circle, dodajemy GridPane na ktorym tworzymy plansze i eventy zwiazane z myszka */
     public Pawn(double x, double y, double radius) {
         super(x, y, radius);
-        //myBoard = pane;
-        oldX = x;
-        oldY = y;
+        /* Cos sie walilo z abortmove wiec zmienilem oldX = x na oldX = x -25 i jest teraz git 
+         * wiec bym nie zmieniał narazie chyba ze wiesz czemu nie dzialalo to spoko
+         */
+        oldX = x - 25;
+        oldY = y - 25;
         setOnMousePressed(e -> {
             mouseX = e.getSceneX();
             mouseY = e.getSceneY();
@@ -65,6 +67,7 @@ public class Pawn extends Circle{
     public void abortMove(){
         relocate(oldX,oldY);
     }
+
 
     /** implementacja przesuwania figury gdy jest aktywna */
 //    final class PawnEventHandler implements EventHandler<MouseEvent>{

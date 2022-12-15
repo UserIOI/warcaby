@@ -11,7 +11,8 @@ public class Kafelek extends Rectangle{
     }
 
     int x,y;
-    kolorKafelka jaki ;
+    kolorKafelka jaki;
+    Boolean haspawn = false;
 
 
     public Kafelek(int x, int y, Boolean bol){
@@ -46,5 +47,17 @@ public class Kafelek extends Rectangle{
 
     public kolorKafelka jakiKolor(){
         return jaki;
+    }
+
+    public Boolean hasPawn(){
+        return haspawn;
+    }
+
+    public void addPawn(){
+        this.haspawn = true;
+    }
+
+    public void deletePawn(){
+        this.haspawn = false;
     }
 }
