@@ -82,9 +82,9 @@ public class Board {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
 
-                        cl.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
-                        // System.out.println(pionek.oldX + " " + pionek.oldY);
-                        // System.out.println("X: " + newX + " Y: " + newY);
+                        cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                        //System.out.println(pionek.oldX + " " + pionek.oldY);
+                        //System.out.println("X: " + newX + " Y: " + newY);
                         // System.out.println(tablica[newX][newY].jakiKolor());
                         if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
                             {
@@ -105,10 +105,10 @@ public class Board {
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        // System.out.println(pionek.oldX + " " + pionek.oldY);
-                        // System.out.println("X: " + newX + " Y: " + newY);
+                        cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                        //System.out.println(pionek.oldX + " " + pionek.oldY);
+                        //System.out.println("X: " + newX + " Y: " + newY);
                         // System.out.println(tablica[newX][newY].jakiKolor());
-                        cl.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
                         if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
                         {
                             tablica[toBoard(pionek.oldX)][toBoard(pionek.oldY)].deletePawn();
