@@ -25,11 +25,11 @@ public class Board {
         BorderPane root = new BorderPane();
         root.setPrefSize(width * 100, width * 100);
 
-        ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
+        //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
         // Button Poddajbutton = new Button("Poddaj sie");
         // Button remisButton = new Button("Remis");
 
-        root.setBottom(toolbar);
+        //root.setBottom(toolbar);
 
         //GridPane grid = new GridPane();
 
