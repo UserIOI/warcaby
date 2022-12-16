@@ -9,7 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
-public class Board extends BorderPane{
+public class Board {
+
+
+    BorderPane root = new BorderPane();
+
+    Client client;
 
     Kafelek[][] tablica = new Kafelek[8][8];
     private int toBoard(double pixel){
@@ -21,11 +26,11 @@ public class Board extends BorderPane{
      * width - szerokosc planszy jako ilosc pol
      * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
     */
-    public BorderPane createBoard(int width, Boolean bol){
-        BorderPane root = new BorderPane();
+    public Board(int width, Boolean bol, Client cl){
+        System.out.println("Board "+ cl);
         root.setPrefSize(width * 100, width * 100);
 
-
+        client = cl;
         //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
         // Button Poddajbutton = new Button("Poddaj sie");
         // Button remisButton = new Button("Remis");
@@ -77,7 +82,7 @@ public class Board extends BorderPane{
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
 
-                        //client.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
+                        cl.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
                         // System.out.println(pionek.oldX + " " + pionek.oldY);
                         // System.out.println("X: " + newX + " Y: " + newY);
                         // System.out.println(tablica[newX][newY].jakiKolor());
@@ -103,7 +108,7 @@ public class Board extends BorderPane{
                         // System.out.println(pionek.oldX + " " + pionek.oldY);
                         // System.out.println("X: " + newX + " Y: " + newY);
                         // System.out.println(tablica[newX][newY].jakiKolor());
-                        //client.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
+                        cl.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
                         if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
                         {
                             tablica[toBoard(pionek.oldX)][toBoard(pionek.oldY)].deletePawn();
@@ -116,7 +121,6 @@ public class Board extends BorderPane{
             }
         }
         //pane.getChildren().add(pawn);
-        return root;
     }
 
     public void play() throws Exception{

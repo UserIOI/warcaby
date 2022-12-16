@@ -8,21 +8,33 @@ import javafx.scene.layout.BorderPane;
 
 public class App extends Application{
 
-    Board board = new Board();
-    Client client;
+    static Board board;
+    static Client client1;
+
+    public void mainCall(Client client){
+        client1 = client;
+        //System.out.println("mainCall " +client);
+        main(null);
+    }
+
+    public static void createBoard(Client client){
+        //System.out.println("createBoard " + client);
+        board = new Board(8, true, client);
+        //System.out.println(board.client);
+    }
 
     public void start(Stage stage) throws Exception{
-        Scene scene = new Scene(board.createBoard(8, true));
+        //System.out.println("Board ze startu" + board);
+        //System.out.println(client1);
+        Scene scene = new Scene(board.root);
         stage.setScene(scene);
         stage.show();
     }
     public static void main(String[] args) {
+        //System.out.println("main ");
+        createBoard(client1);
         launch(args);
     }
 
-    public void mainCall(Client client){
-        this.client = client;
-        main(null);
-    }
 
 }

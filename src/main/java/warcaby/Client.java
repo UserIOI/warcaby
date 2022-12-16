@@ -21,6 +21,9 @@ public class Client {
         this.newX = newX;
         this.newY = newY;
         System.out.println(" z pushToServer Client " + oldX +" "+ oldY +" "+ newX +" "+ newY);
+        out.println("MOVE" + oldX + oldY + newX + newY);
+        //in ...
+        //out ...
     }
 
     public Client(String serverAddress) throws Exception {

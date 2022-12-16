@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Game {
     Player currentPlayer;
-    int[][] board = new int[7][7];
+    int[][] board = new int[8][8];
 
     public Game() {
         for (int i = 0; i < 8; i++) {
@@ -50,6 +50,7 @@ public class Game {
         PrintWriter output;
 
         public Player(Socket socket, int type) throws IOException {
+            System.out.println("konstruktor player");
             this.socket = socket;
             this.red = type;
             input = new Scanner(socket.getInputStream());
@@ -85,6 +86,7 @@ public class Game {
             if (move(this, oldX, oldY, newX, newY)) {
                 output.println("MOVE"+oldX+oldY+newX+newY);
                 opponent.output.println("MOVE"+oldX+oldY+newX+newY);
+                System.out.println("move");
             }
         }
     }
