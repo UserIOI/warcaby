@@ -11,7 +11,9 @@ public class NewServer {
             while (true) {
                 Game game = new Game();
                 pool.execute(game.new Player(listener.accept(),1));
+                System.out.println("Player connected " + game.currentPlayer.red);
                 pool.execute(game.new Player(listener.accept(), 2));
+                System.out.println("Player connected "  + game.currentPlayer.opponent.red);
             }
         }
     }

@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
-public class Board {
+public class Board extends BorderPane{
 
     Kafelek[][] tablica = new Kafelek[8][8];
     private int toBoard(double pixel){
@@ -24,6 +24,7 @@ public class Board {
     public BorderPane createBoard(int width, Boolean bol){
         BorderPane root = new BorderPane();
         root.setPrefSize(width * 100, width * 100);
+
 
         //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
         // Button Poddajbutton = new Button("Poddaj sie");
@@ -75,9 +76,11 @@ public class Board {
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        System.out.println(pionek.oldX + " " + pionek.oldY);
-                        System.out.println("X: " + newX + " Y: " + newY);
-                        System.out.println(tablica[newX][newY].jakiKolor());
+
+                        //client.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
+                        // System.out.println(pionek.oldX + " " + pionek.oldY);
+                        // System.out.println("X: " + newX + " Y: " + newY);
+                        // System.out.println(tablica[newX][newY].jakiKolor());
                         if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
                             {
                                 tablica[toBoard(pionek.oldX)][toBoard(pionek.oldY)].deletePawn();
@@ -97,9 +100,10 @@ public class Board {
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        System.out.println(pionek.oldX + " " + pionek.oldY);
-                        System.out.println("X: " + newX + " Y: " + newY);
-                        System.out.println(tablica[newX][newY].jakiKolor());
+                        // System.out.println(pionek.oldX + " " + pionek.oldY);
+                        // System.out.println("X: " + newX + " Y: " + newY);
+                        // System.out.println(tablica[newX][newY].jakiKolor());
+                        //client.pushToServer(toBoard(pionek.oldX),toBoard(pionek.oldX), newX, newY);
                         if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
                         {
                             tablica[toBoard(pionek.oldX)][toBoard(pionek.oldY)].deletePawn();

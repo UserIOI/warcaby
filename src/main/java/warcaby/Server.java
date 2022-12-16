@@ -23,9 +23,13 @@ public class Server {
             System.out.println("listening...");
             ServerSocket server=new ServerSocket(6666);
             Socket socket=server.accept();//establishes connection
-            DataInputStream dis=new DataInputStream(socket.getInputStream());
-            String  str=(String)dis.readUTF();
-            System.out.println("message = "+str);
+            System.out.println("connected "+ socket);
+            while(socket.isConnected()){
+                DataInputStream dis=new DataInputStream(socket.getInputStream());
+                String  str=(String)dis.readUTF();
+                System.out.println("message = "+str);
+            }
+
             server.close();
         }catch(Exception e){System.out.println(e);}
     }

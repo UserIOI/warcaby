@@ -3,6 +3,7 @@ warcaby\Game$Player.class
 warcaby\Kafelek$kolorKafelka.class
 warcaby\Client.class
 warcaby\Pawn.class
+warcaby\App.class
 warcaby\Board.class
 warcaby\Kafelek.class
 warcaby\NewServer.class
