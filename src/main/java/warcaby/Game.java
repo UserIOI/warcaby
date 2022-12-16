@@ -50,7 +50,7 @@ public class Game {
         PrintWriter output;
 
         public Player(Socket socket, int type) throws IOException {
-            System.out.println("konstruktor player");
+            //System.out.println("konstruktor player");
             this.socket = socket;
             this.red = type;
             input = new Scanner(socket.getInputStream());

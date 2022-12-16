@@ -15,23 +15,28 @@ public class Client {
     private static Scanner in = new Scanner(System.in);
     private PrintWriter out;
 
+    public String waitForServer(){
+        var response = in.nextLine();
+        System.out.println(response);
+        return response;
+    }
+
     public void pushToServer(int oldX, int oldY, int newX, int newY){
         this.oldX = oldX;
         this.oldY = oldY;
         this.newX = newX;
         this.newY = newY;
-        System.out.println(" z pushToServer Client " + oldX +" "+ oldY +" "+ newX +" "+ newY);
+        //System.out.println(" z pushToServer Client " + oldX +" "+ oldY +" "+ newX +" "+ newY);
         out.println("MOVE" + oldX + oldY + newX + newY);
-        //in ...
-        //out ...
+        var response = in.nextLine();
+        System.out.println(response);
     }
 
     public Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 58901);
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
-        System.out.println("client connected");
-        
+        //System.out.println("client connected");
         
         startApp(this);
         
@@ -48,49 +53,28 @@ public class Client {
         app.mainCall(client);
     }
 
-    public void play() throws Exception {
-        try {
-            var response = in.nextLine();
+    // public void play() throws Exception {
+    //     try {
+    //         var response = in.nextLine();
 
-            while( in.hasNextLine()){
-                response = in.nextLine();
-                System.out.println("play() : " + response);
-                while(socket.isConnected()){
-                    Scanner scan = new Scanner(System.in);
-                    String tekst = scan.nextLine();
-                    out.println(tekst);
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+    //         while( true){
+    //             response = in.nextLine();
+    //             System.out.println("play() : " + response);
+    //             // while(socket.isConnected()){
+    //             //     Scanner scan = new Scanner(System.in);
+    //             //     String tekst = scan.nextLine();
+    //             //     out.println(tekst);
+    //             // }
+    //         }
+    //     } catch (Exception e){
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public static void main(String[] args) throws Exception{
 
         Client client = new Client("localhost");
-        client.play();
-
-
-
-
-
-
-        // try {
-        //     Socket s = new Socket("localhost", 58901);
-        //     while(s.isConnected()){
-        //         DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-        //         DataInputStream din = new DataInputStream(s.getInputStream());
-
-        //         string = in.nextLine();
-        //         dout.writeUTF(string);
-        //         dout.flush();
-        //     }
-
-        //     s.close();
-        // } catch (Exception e) {
-        //     System.out.println(e);
-        // }
+        //client.play();
 
     }
 }

@@ -14,6 +14,8 @@ public class Board {
 
     BorderPane root = new BorderPane();
 
+    Pawn[][] tabPawns = new Pawn[8][8];
+
     Client client;
 
     Kafelek[][] tablica = new Kafelek[8][8];
@@ -27,7 +29,7 @@ public class Board {
      * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
     */
     public Board(int width, Boolean bol, Client cl){
-        System.out.println("Board "+ cl);
+        //System.out.println("Board "+ cl);
         root.setPrefSize(width * 100, width * 100);
 
         client = cl;
@@ -73,7 +75,9 @@ public class Board {
                 if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j < 3)){
 
                     Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
+                    tabPawns[i][j] = pionek;
                     tablica[i][j].addPawn();
+                    //System.out.println(pionek);
                     pionek.setColor(Color.valueOf("#c40003"));
 
                     pane.getChildren().add(pionek);
@@ -83,21 +87,26 @@ public class Board {
                         int newY = toBoard(e.getSceneY());
 
                         cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                        String odp = cl.waitForServer();
+                        if(odp == "Zly"){
+                            pionek.abortMove();
+                        }
+                        else {
+                            movepionek((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                            odp = cl.waitForServer();
+
+                            movepionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)), Integer.parseInt(odp.substring(6, 7)), Integer.parseInt(odp.substring(7, 8)));
+                        }
+
+
                         //System.out.println(pionek.oldX + " " + pionek.oldY);
                         //System.out.println("X: " + newX + " Y: " + newY);
                         // System.out.println(tablica[newX][newY].jakiKolor());
-                        if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
-                            {
-                                tablica[toBoard(pionek.oldX)][toBoard(pionek.oldY)].deletePawn();
-                                tablica[newX][newY].addPawn();
-                                pionek.move(newX, newY);
-                            }
-                        else pionek.abortMove();
                     });
                 }
                 else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > 4 )){
                     Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
-
+                    tabPawns[i][j] = pionek;
                     pionek.setColor(Color.valueOf("#fff9f4"));
 
                     pane.getChildren().add(pionek);
@@ -106,16 +115,17 @@ public class Board {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
                         cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
-                        //System.out.println(pionek.oldX + " " + pionek.oldY);
-                        //System.out.println("X: " + newX + " Y: " + newY);
-                        // System.out.println(tablica[newX][newY].jakiKolor());
-                        if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY && !tablica[newX][newY].hasPawn())
-                        {
-                            tablica[toBoard(pionek.oldX)][toBoard(pionek.oldY)].deletePawn();
-                            tablica[newX][newY].addPawn();
-                            pionek.move(newX, newY);
+                        String odp = cl.waitForServer();
+                        if(odp == "Zly"){
+                            pionek.abortMove();
                         }
-                        else pionek.abortMove();
+                        else {
+                            movepionek((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                            
+                            odp = cl.waitForServer();
+
+                            movepionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)), Integer.parseInt(odp.substring(6, 7)), Integer.parseInt(odp.substring(7, 8)));
+                        }
                     });
                 }
             }
@@ -123,7 +133,11 @@ public class Board {
         //pane.getChildren().add(pawn);
     }
 
-    public void play() throws Exception{
-
+    public void movepionek(int oldX, int oldY, int newX, int newY){
+        tabPawns[oldX][oldY].move(newX, newY);
+        tabPawns[newX][newY] = tabPawns[oldX][oldY];
+        tabPawns[oldX][oldY] = null;
     }
+
+
 }
