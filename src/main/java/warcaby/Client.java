@@ -9,10 +9,10 @@ import java.net.Socket;
 
 public class Client {
 
-    public  static String string;
+    public static String string;
     public int oldX ,oldY, newX, newY;
     private Socket socket;
-    private static Scanner in = new Scanner(System.in);
+    public Scanner in = new Scanner(System.in);
     private PrintWriter out;
 
     public String waitForServer(){
@@ -28,8 +28,8 @@ public class Client {
         this.newY = newY;
         //System.out.println(" z pushToServer Client " + oldX +" "+ oldY +" "+ newX +" "+ newY);
         out.println("MOVE" + oldX + oldY + newX + newY);
-        var response = in.nextLine();
-        System.out.println(response);
+        //var response = in.nextLine();
+        //System.out.println(response);
     }
 
     public Client(String serverAddress) throws Exception {
