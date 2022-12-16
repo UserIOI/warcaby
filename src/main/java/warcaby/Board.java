@@ -12,7 +12,6 @@ import javafx.scene.layout.Pane;
 public class Board {
 
     Kafelek[][] tablica = new Kafelek[8][8];
-    
     private int toBoard(double pixel){
         //System.out.println(pixel);
         return (int)((pixel)/100);
@@ -26,11 +25,11 @@ public class Board {
         BorderPane root = new BorderPane();
         root.setPrefSize(width * 100, width * 100);
 
-        ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
+        //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
         // Button Poddajbutton = new Button("Poddaj sie");
         // Button remisButton = new Button("Remis");
 
-        root.setBottom(toolbar);
+        //root.setBottom(toolbar);
 
         //GridPane grid = new GridPane();
 
@@ -114,5 +113,9 @@ public class Board {
         }
         //pane.getChildren().add(pawn);
         return root;
+    }
+
+    public void play() throws Exception{
+
     }
 }
