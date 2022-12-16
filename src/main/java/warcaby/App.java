@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
 
 public class App extends Application{
-
     BorderPane border = new BorderPane();
     Board board = new Board();
 

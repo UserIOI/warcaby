@@ -12,7 +12,6 @@ import javafx.scene.layout.Pane;
 public class Board {
 
     Kafelek[][] tablica = new Kafelek[8][8];
-    
     private int toBoard(double pixel){
         //System.out.println(pixel);
         return (int)((pixel)/100);
@@ -114,5 +113,9 @@ public class Board {
         }
         //pane.getChildren().add(pawn);
         return root;
+    }
+
+    public void play() throws Exception{
+
     }
 }

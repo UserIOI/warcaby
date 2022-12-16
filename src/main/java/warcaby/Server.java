@@ -1,5 +1,6 @@
 package warcaby;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -9,19 +10,23 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+
 public class Server {
-    
+
+    int[][] ustawienie = new int[7][7];
+    private static ServerSocket server;
+
     public static void main(String[] args) throws Exception {
 
-        ExecutorService pool;
-        try (var listener = new ServerSocket(58901)) {
-            System.out.println("Tic Tac Toe Server is Running...");
-            pool = Executors.newFixedThreadPool(200);
-            while (true) {
-                Game game = new Game();
-                pool.execute(game.new Player(listener.accept(), 'X'));
-                pool.execute(game.new Player(listener.accept(), 'O'));
-            }
-        }
+        try{
+
+            ServerSocket server=new ServerSocket(6666);
+            Socket socket=server.accept();//establishes connection
+            DataInputStream dis=new DataInputStream(socket.getInputStream());
+            String  str=(String)dis.readUTF();
+            System.out.println("message = "+str);
+            server.close();
+        }catch(Exception e){System.out.println(e);}
     }
 }

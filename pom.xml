@@ -18,7 +18,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <javafx.version>17.0.1</javafx.version>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+
   </properties>
+
 
   <dependencies>
     <dependency>
@@ -90,5 +92,17 @@
       </plugin>
       </plugins>
     </pluginManagement>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                  <source>10</source>
+                  <target>10</target>
+              </configuration>
+          </plugin>
+      </plugins>
   </build>
 </project>
+
+
