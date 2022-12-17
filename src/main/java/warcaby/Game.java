@@ -50,7 +50,7 @@ public class Game {
         PrintWriter output;
 
         public Player(Socket socket, int type) throws IOException {
-            //System.out.println("konstruktor player");
+            System.out.println("konstruktor player");
             this.socket = socket;
             this.red = type;
             input = new Scanner(socket.getInputStream());
@@ -73,11 +73,10 @@ public class Game {
         private void processCommands() {
             while (input.hasNextLine()) {
                 var command = input.nextLine();
-                //System.out.println("hasnextline");
+                System.out.println(command);
                 if (command.startsWith("QUIT")) {
                     return;
                 } else if (command.startsWith("MOVE")) {
-                    //System.out.println("processmovecommand");
                     processMoveCommand(Integer.parseInt(command.substring(4, 5)), Integer.parseInt(command.substring(5, 6)), Integer.parseInt(command.substring(6, 7)), Integer.parseInt(command.substring(7, 8)));
                 }
             }
