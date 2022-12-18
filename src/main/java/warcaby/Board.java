@@ -134,7 +134,7 @@ public class Board implements Runnable {
                     movepionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)), Integer.parseInt(odp.substring(6, 7)), Integer.parseInt(odp.substring(7, 8)));
                     System.out.println("c2");
                 }
-                else if(odp.startsWith("KILL")){
+                if(odp.startsWith("KILL")){
                     System.out.println("kill");
                     killpionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)));
                 }

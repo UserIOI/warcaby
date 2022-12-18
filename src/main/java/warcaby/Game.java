@@ -69,6 +69,9 @@ public class Game {
         } else if(player.kierunek == 1 && oldY - newY > 0){
             System.out.println("kierunek 1");
             return false;
+        }else if(Math.abs(oldX - newX) > 2 || Math.abs(oldY - newY) > 2  ){
+            System.out.println("ponad 2 w ruchu");
+            return false;
         } else if(Math.abs(oldX - newX) == 2 && Math.abs(oldY - newY) == 2  ){
             System.out.println("oldX - newX) == 2 && Math.abs(oldY - newY) == 2");
             if( oldX > newX && player.kierunek == -1){
