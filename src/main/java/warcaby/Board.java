@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
-public class Board {
+public class Board implements Runnable {
 
 
     BorderPane root = new BorderPane();
@@ -33,6 +33,8 @@ public class Board {
     */
     public Board(int width, Boolean bol, Client cl){
         //System.out.println("Board "+ cl);
+        Thread watek = new Thread(this);
+        watek.start();
         root.setPrefSize(width * 100, width * 100);
 
         client = cl;
@@ -90,23 +92,8 @@ public class Board {
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        String odp;
                         cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
-                        while(cl.in.hasNextLine()){
-                            odp = cl.in.nextLine();
-                            System.out.println(odp);
-                            if(odp.startsWith("MOVE")){
-                                System.out.println("czyta");
-                                //movepionek((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
-                                movepionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)), Integer.parseInt(odp.substring(6, 7)), Integer.parseInt(odp.substring(7, 8)));
-                                System.out.println("c");
-                            }
-                            else {
-                                pionek.abortMove();
-                            }
-                        }
-
-
+                        pionek.abortMove();
                         //System.out.println(pionek.oldX + " " + pionek.oldY);
                         //System.out.println("X: " + newX + " Y: " + newY);
                         // System.out.println(tablica[newX][newY].jakiKolor());
@@ -122,21 +109,8 @@ public class Board {
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        String odp;
                         cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
-                        while(cl.in.hasNextLine()){
-                            odp = cl.in.nextLine();
-                            System.out.println(odp);
-                            if(odp.startsWith("MOVE")){
-                                System.out.println("czyta2");
-                                //movepionek((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
-                                movepionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)), Integer.parseInt(odp.substring(6, 7)), Integer.parseInt(odp.substring(7, 8)));
-                                System.out.println("c2");
-                            }
-                            else {
-                                pionek.abortMove();
-                            }
-                        }
+                        pionek.abortMove();
                     });
                 }
 
@@ -144,7 +118,28 @@ public class Board {
         }
         //pane.getChildren().add(pawn);
         //tabPawns[1][2].move(2,3);
-        movepionek(1, 2, 2, 3);
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            System.out.println("przed wejsciem do petli");
+            while (client.in.hasNextLine()) {
+                System.out.println("wchodze do petli");
+                String odp = client.in.nextLine();
+                System.out.println(odp);
+                if (odp.startsWith("MOVE")) {
+                    System.out.println("czyta2");
+                    //movepionek((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                    movepionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)), Integer.parseInt(odp.substring(6, 7)), Integer.parseInt(odp.substring(7, 8)));
+                    System.out.println("c2");
+                }
+                else if(odp.startsWith("KILL")){
+                    System.out.println("kill");
+                    killpionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)));
+                }
+            }
+        }
     }
 
     public void movepionek(int oldX, int oldY, int newX, int newY){
@@ -153,5 +148,11 @@ public class Board {
         tabPawns[newX][newY] = tabPawns[oldX][oldY];
         tabPawns[oldX][oldY] = null;
     }
+
+    public void killpionek(int x, int y){
+        tabPawns[x][y].move(1000, 1000);
+        tabPawns[x][y] = null;
+    }
+
 
 }
