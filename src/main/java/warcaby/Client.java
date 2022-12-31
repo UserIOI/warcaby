@@ -15,6 +15,9 @@ public class Client {
     public Scanner in = new Scanner(System.in);
     private PrintWriter out;
 
+    private boolean biciedotylu = false;
+    private int boardSize = 8;
+
     public String waitForServer(){
         var response = in.nextLine();
         System.out.println(response);
@@ -37,13 +40,13 @@ public class Client {
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
         
-        startApp(this);
+        startApp(this /* boolean biciedotylu, int boardSize */);
 
     }
 
-    public void startApp(Client client){
+    public void startApp(Client client /* boolean biciedotylu, int boardSize */){
         App app = new App();
-        app.mainCall(client);
+        app.mainCall(client /* boolean biciedotylu, int boardSize */);
     }
 
 
@@ -51,5 +54,7 @@ public class Client {
 
         Client client = new Client("localhost");
 
+        //powinien wpisywac w jaka wersje chce grac client
+        //jakis scanner i potem w startApp dodajemy boolean czy moze bic do tylu czy nie i rozmiar planszy
     }
 }

@@ -9,6 +9,7 @@ public class Game {
     Player currentPlayer;
     int[][] board = new int[8][8];
     Boolean kill = false;
+    Boolean biciewtyl = false;
     int killx, killy;
 
     public Game() {
@@ -63,10 +64,10 @@ public class Game {
         } else if(oldX == newX || oldY == newY){
             System.out.println("oldX == newX || oldY == newY");
             return false;
-        } else if(player.kierunek == -1 && oldY - newY < 0){
+        } else if(player.kierunek == -1 && oldY - newY < 0){ // can kill do tylu ?
             System.out.println("kierunek -1");
             return false;
-        } else if(player.kierunek == 1 && oldY - newY > 0){
+        } else if(player.kierunek == 1 && oldY - newY > 0){ // can kill do tylu ?
             System.out.println("kierunek 1");
             return false;
         }else if(Math.abs(oldX - newX) > 2 || Math.abs(oldY - newY) > 2  ){
@@ -99,7 +100,7 @@ public class Game {
                     this.kill = true;
                     this.killx = oldX-1;
                     this.killy = oldY+1;
-                    System.out.println("kill = true, 2 if");
+                    System.out.println("kill = true, 3 if");
                     currentPlayer = currentPlayer.opponent;
                     return true;
                 }
@@ -108,7 +109,7 @@ public class Game {
                     this.kill = true;
                     this.killx = oldX+1;
                     this.killy = oldY+1;
-                    System.out.println("kill = true, 2 if");
+                    System.out.println("kill = true, 4 if");
                     currentPlayer = currentPlayer.opponent;
                     return true;
                 }

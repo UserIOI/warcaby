@@ -12,16 +12,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
+
+
 public class Board implements Runnable {
 
 
     BorderPane root = new BorderPane();
 
-    Pawn[][] tabPawns = new Pawn[8][8];
+    boolean biciedotylu = false;
+
+    Pawn[][] tabPawns = new Pawn[8][8]; //do zmiany przy wersji polskiej na 10 x 10
 
     Client client;
 
-    Kafelek[][] tablica = new Kafelek[8][8];
+    Kafelek[][] tablica = new Kafelek[8][8]; //do zmiany przy wersji polskiej na 10 x 10
     private int toBoard(double pixel){
         //System.out.println(pixel);
         return (int)((pixel)/100);
@@ -31,10 +35,12 @@ public class Board implements Runnable {
      * width - szerokosc planszy jako ilosc pol
      * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
     */
-    public Board(int width, Boolean bol, Client cl){
+    public Board(int width, Boolean bol, Client cl, boolean biciedotylu){
         //System.out.println("Board "+ cl);
+        this.biciedotylu = biciedotylu;
         Thread watek = new Thread(this);
         watek.start();
+        System.out.println();
         root.setPrefSize(width * 100, width * 100);
 
         client = cl;
@@ -48,18 +54,6 @@ public class Board implements Runnable {
 
         Pane pane = new Pane();
         root.setCenter(pane);
-
-        // Pawn pawn = new Pawn(50,50,25);
-        // pawn.setColor(Color.valueOf("#c40003"));
-        // pawn.setOnMouseReleased(e -> {
-        //     int newX = toBoard(e.getSceneX());
-        //     int newY = toBoard(e.getSceneY());
-        //     System.out.println("X: " + newX + " Y: " + newY);
-        //     System.out.println(tablica[newX][newY].jakiKolor());
-        //     if(tablica[newX][newY].jakiKolor() == kolorKafelka.CIEMNY)
-        //         pawn.move(newX, newY);
-        //     else pawn.abortMove();
-        // });
 
         /* 
          * Tworzenie planszy 
@@ -75,16 +69,13 @@ public class Board implements Runnable {
         /*
          * Dodawanie pionkow
          */
-        for( int i = 7; i >= 0; i--){
-            for( int j = 7; j >= 0; j--){
-                if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j < 3)){
+        for( int i = 7; i >= 0; i--){ //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
+            for( int j = 7; j >= 0; j--){ //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
+                if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j < 3)){  //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
 
-                    Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
+                    Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25); 
                     tabPawns[i][j] = pionek;
-                    //System.out.println(tabPawns[i][j]);
-                    //System.out.println(i + " " + j);
                     tablica[i][j].addPawn();
-                    //System.out.println(pionek);
                     pionek.setColor(Color.valueOf("#c40003"));
 
                     pane.getChildren().add(pionek);
@@ -94,12 +85,9 @@ public class Board implements Runnable {
                         int newY = toBoard(e.getSceneY());
                         cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
                         pionek.abortMove();
-                        //System.out.println(pionek.oldX + " " + pionek.oldY);
-                        //System.out.println("X: " + newX + " Y: " + newY);
-                        // System.out.println(tablica[newX][newY].jakiKolor());
                     });
                 }
-                else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > 4 )){
+                else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > 4 )){ //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
                     Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
                     tabPawns[i][j] = pionek;
                     pionek.setColor(Color.valueOf("#fff9f4"));
@@ -116,8 +104,6 @@ public class Board implements Runnable {
 
             }
         }
-        //pane.getChildren().add(pawn);
-        //tabPawns[1][2].move(2,3);
     }
 
     @Override

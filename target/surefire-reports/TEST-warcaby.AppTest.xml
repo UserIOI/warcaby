@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PL"/>
     <property name="sun.boot.library.path" value="C:\Java\jdk-17.0.3.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\Dominic\AppData\Local\Temp\surefire13666952035282413445\surefirebooter100128240356469651.jar C:\Users\Dominic\AppData\Local\Temp\surefire13666952035282413445 2022-12-16T22-02-58_994-jvmRun1 surefire1325167728325609293tmp surefire_09975124219925858563tmp"/>
+    <property name="sun.java.command" value="C:\Users\Dominic\AppData\Local\Temp\surefire4532193542287435733\surefirebooter12720621272729950187.jar C:\Users\Dominic\AppData\Local\Temp\surefire4532193542287435733 2022-12-22T11-59-46_098-jvmRun1 surefire15120260181331077909tmp surefire_017721228934739530747tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Dominic\Desktop\sem 3\programowanie\tp_projekt\Warcaby\warcaby_tp\target\test-classes;C:\Users\Dominic\Desktop\sem 3\programowanie\tp_projekt\Warcaby\warcaby_tp\target\classes;C:\Users\Dominic\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Dominic\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Dominic\.m2\repository\org\openjfx\javafx-controls\12\javafx-controls-12.jar;C:\Users\Dominic\.m2\repository\org\openjfx\javafx-controls\12\javafx-controls-12-win.jar;C:\Users\Dominic\.m2\repository\org\openjfx\javafx-graphics\12\javafx-graphics-12.jar;C:\Users\Dominic\.m2\repository\org\openjfx\javafx-graphics\12\javafx-graphics-12-win.jar;C:\Users\Dominic\.m2\repository\org\openjfx\javafx-base\12\javafx-base-12.jar;C:\Users\Dominic\.m2\repository\org\openjfx\javafx-base\12\javafx-base-12-win.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Dominic\AppData\Local\Temp\surefire13666952035282413445\surefirebooter100128240356469651.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Dominic\AppData\Local\Temp\surefire4532193542287435733\surefirebooter12720621272729950187.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.3.1+2-LTS-6"/>
@@ -56,5 +56,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="warcaby.AppTest" time="0.002"/>
+  <testcase name="shouldAnswerWithTrue" classname="warcaby.AppTest" time="0.008"/>
 </testsuite>

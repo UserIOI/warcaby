@@ -10,6 +10,8 @@ public class App extends Application{
 
     static Board board;
     static Client client1;
+    static Boolean bicie = false; // false jesli bez bicia do tylu a true jesli z biciem do tylu
+    static int boardSize = 8; // wielkosc planszy, tez do zmiany przy wywolywaniu u clienta
 
     public void mainCall(Client client){
         client1 = client;
@@ -19,7 +21,7 @@ public class App extends Application{
 
     public static void createBoard(Client client){
         //System.out.println("createBoard " + client);
-        board = new Board(8, true, client);
+        board = new Board(8, true, client, bicie);
         //System.out.println(board.client);
     }
 
