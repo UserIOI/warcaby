@@ -71,16 +71,16 @@ public class Pawn extends Circle{
         relocate(oldX,oldY);
     }
 
-    public void setQueen(){
+    public void setQueen(){ //moze 2 funkcje po prostu dla bialych i czarnych
         isQueen = true;
         //trzeba sprawdzic jaki kolor ma pionek
-        if( colorPawn.toString() == "0xc40003ff"){ //bialy
+        if( colorPawn.equals(Color.valueOf("#c40003"))){ //czerwony
             System.out.println(colorPawn.toString());
-            setColor(Color.valueOf("#ffe5cf"));
+            setColor(Color.valueOf("#700103"));
  
         }
         else {
-            setColor(Color.valueOf("#700103"));
+            setColor(Color.valueOf("#fcd6b6"));
             System.out.println(colorPawn.toString());
         }
 

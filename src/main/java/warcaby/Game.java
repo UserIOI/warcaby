@@ -192,6 +192,16 @@ public class Game {
                  * tu sprawdzamy czy jest damka i wysylamy do clienta DAMKA x y
                  * board[newX][newY] = 22 or 11 w zaleznosci czy board[newX][newY] = 1 or 2
                  */
+                if(kierunek == -1 && newY == 0){ //white
+                    output.println("DAMA"+newX+newY);
+                    opponent.output.println("DAMA"+newX+newY);
+                    board[newX][newY] = 11;
+                }
+                else if(kierunek == 1 && newY == 7){ //red
+                    output.println("DAMA"+newX+newY);
+                    opponent.output.println("DAMA"+newX+newY);
+                    board[newX][newY] = 22;
+                }
             }
             if(kill){
                 board[killx][killy] = 0;

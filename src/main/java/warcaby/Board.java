@@ -138,6 +138,10 @@ public class Board implements Runnable {
                  * if(odp.startsWith("DAMA"))
                  * addQueen(x,y);
                  */
+                if(odp.startsWith("DAMA")){
+                    System.out.println("dama");
+                    addQueen(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)));
+                }
             }
         }
     }
