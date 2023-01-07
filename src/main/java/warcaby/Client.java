@@ -66,7 +66,7 @@ public class Client {
     public static void main(String[] args) throws Exception{
 
 
-        setRules(false, true, 10);
+        setRules(false, true, 8);
         Client client = new Client("localhost");
 
         //powinien wpisywac w jaka wersje chce grac client

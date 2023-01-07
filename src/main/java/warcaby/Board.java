@@ -84,7 +84,7 @@ public class Board implements Runnable {
                     Pawn pionek = new Pawn(i*kafelekSize + kafelekSize/2, j * kafelekSize + kafelekSize/2, kafelekSize/4); 
                     tabPawns[i][j] = pionek;
                     //tablica[i][j].addPawn();
-                    pionek.setColor(Color.valueOf("#c40003"));
+                    pionek.setColor(Color.valueOf("#c40003")); //czerwony
 
                     pane.getChildren().add(pionek);
 
@@ -92,13 +92,14 @@ public class Board implements Runnable {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
                         cl.pushToServer((int)pionek.oldX/kafelekSize, (int)pionek.oldY/kafelekSize, newX, newY);
+                        //pionek.setQueen();
                         pionek.abortMove();
                     });
                 }
                 else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > width/2 )){ 
                     Pawn pionek = new Pawn(i*kafelekSize + kafelekSize/2, j * kafelekSize + kafelekSize/2, kafelekSize/4);
                     tabPawns[i][j] = pionek;
-                    pionek.setColor(Color.valueOf("#fff9f4"));
+                    pionek.setColor(Color.valueOf("#fff9f4")); //bialy
 
                     pane.getChildren().add(pionek);
                     //tablica[i][j].addPawn();
@@ -106,6 +107,7 @@ public class Board implements Runnable {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
                         cl.pushToServer((int)pionek.oldX/kafelekSize, (int)pionek.oldY/kafelekSize, newX, newY);
+                        //pionek.setQueen();
                         pionek.abortMove();
                     });
                 }
@@ -132,6 +134,10 @@ public class Board implements Runnable {
                     System.out.println("kill");
                     killpionek(Integer.parseInt(odp.substring(4, 5)), Integer.parseInt(odp.substring(5, 6)));
                 }
+                /* 
+                 * if(odp.startsWith("DAMA"))
+                 * addQueen(x,y);
+                 */
             }
         }
     }
@@ -150,7 +156,7 @@ public class Board implements Runnable {
     }
 
     public void addQueen(int x, int y){
-
+        tabPawns[x][y].setQueen();
     }
 
 }

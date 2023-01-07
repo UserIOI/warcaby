@@ -12,9 +12,11 @@ public class Pawn extends Circle{
      * @see Circle
      */
     private Pane myBoard = new Pane();
+    public boolean isQueen = false;
     double oldX;
     double oldY;
     double mouseX,mouseY;
+    Color colorPawn;
     /** konstruktor dziedziczymy po klasie Circle, dodajemy GridPane na ktorym tworzymy plansze i eventy zwiazane z myszka */
     public Pawn(double x, double y, double radius) {
         super(x, y, radius);
@@ -57,6 +59,7 @@ public class Pawn extends Circle{
 
     public void setColor(Color color){
         setFill(color);
+        colorPawn = color;
     }
 
     public void move(int x, int y) {
@@ -66,6 +69,21 @@ public class Pawn extends Circle{
     }
     public void abortMove(){
         relocate(oldX,oldY);
+    }
+
+    public void setQueen(){
+        isQueen = true;
+        //trzeba sprawdzic jaki kolor ma pionek
+        if( colorPawn.toString() == "0xc40003ff"){ //bialy
+            System.out.println(colorPawn.toString());
+            setColor(Color.valueOf("#ffe5cf"));
+ 
+        }
+        else {
+            setColor(Color.valueOf("#700103"));
+            System.out.println(colorPawn.toString());
+        }
+
     }
 
 
