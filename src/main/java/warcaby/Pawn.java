@@ -21,8 +21,8 @@ public class Pawn extends Circle{
         /* Cos sie walilo z abortmove wiec zmienilem oldX = x na oldX = x -25 i jest teraz git 
          * wiec bym nie zmieniał narazie chyba ze wiesz czemu nie dzialalo to spoko
          */
-        oldX = x - 25;
-        oldY = y - 25;
+        oldX = x - warcaby.Board.kafelekSize/4;
+        oldY = y - warcaby.Board.kafelekSize/4;
         setOnMousePressed(e -> {
             mouseX = e.getSceneX();
             mouseY = e.getSceneY();
@@ -60,8 +60,8 @@ public class Pawn extends Circle{
     }
 
     public void move(int x, int y) {
-        oldX = (x * 100)+25;
-        oldY = (y * 100)+25;
+        oldX = (x * warcaby.Board.kafelekSize)+ warcaby.Board.kafelekSize/4;
+        oldY = (y * warcaby.Board.kafelekSize)+ warcaby.Board.kafelekSize/4;
         relocate(oldX,oldY);
     }
     public void abortMove(){

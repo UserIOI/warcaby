@@ -12,17 +12,17 @@ public class Kafelek extends Rectangle{
 
     int x,y;
     kolorKafelka jaki;
-    Boolean haspawn = false;
+    //Boolean haspawn = false;
 
 
-    public Kafelek(int x, int y, Boolean bol){
+    public Kafelek(int x, int y, Boolean bol, int size){
         this.x = x;
         this.y = y;
 
-        setWidth(100);
-        setHeight(100);
+        setWidth(size);
+        setHeight(size);
 
-        relocate(x * 100, y * 100);
+        relocate(x * size, y * size);
 
         if(bol){
             if( (x + y) %2 == 0){
@@ -49,15 +49,15 @@ public class Kafelek extends Rectangle{
         return jaki;
     }
 
-    public Boolean hasPawn(){
-        return haspawn;
-    }
+    // public Boolean hasPawn(){
+    //     return haspawn;
+    // }
 
-    public void addPawn(){
-        this.haspawn = true;
-    }
+    // public void addPawn(){
+    //     this.haspawn = true;
+    // }
 
-    public void deletePawn(){
-        this.haspawn = false;
-    }
+    // public void deletePawn(){
+    //     this.haspawn = false;
+    // }
 }

@@ -11,6 +11,7 @@ public class Game {
     Boolean kill = false;
     Boolean biciewtyl = false;
     int killx, killy;
+    int wynik;
 
     public Game() {
         for (int i = 0; i < 8; i++) {
@@ -75,7 +76,7 @@ public class Game {
             return false;
         } else if(Math.abs(oldX - newX) == 2 && Math.abs(oldY - newY) == 2  ){
             System.out.println("oldX - newX) == 2 && Math.abs(oldY - newY) == 2");
-            if( oldX > newX && player.kierunek == -1){
+            if( oldX > newX && player.kierunek == -1){ //player type wystarczy i guess
                 if(board[oldX-1][oldY-1] == player.opponent.red){
                     this.kill = true;
                     this.killx = oldX-1;
@@ -85,7 +86,7 @@ public class Game {
                     return true;
                 }
             }
-            else if( oldX < newX && player.kierunek == -1){
+            else if( oldX < newX && player.kierunek == -1){ //player type wystarczy i guess
                 if(board[oldX+1][oldY-1] == player.opponent.red){
                     this.kill = true;
                     this.killx = oldX+1;
@@ -95,7 +96,7 @@ public class Game {
                     return true;
                 }
             }
-            else if( oldX > newX && player.kierunek == 1){
+            else if( oldX > newX && player.kierunek == 1){ //player type wystarczy i guess
                 if(board[oldX-1][oldY+1] == player.opponent.red){
                     this.kill = true;
                     this.killx = oldX-1;
@@ -104,7 +105,7 @@ public class Game {
                     currentPlayer = currentPlayer.opponent;
                     return true;
                 }
-            }else if( oldX < newX && player.kierunek == 1){
+            }else if( oldX < newX && player.kierunek == 1){ //player type wystarczy i guess
                 if(board[oldX+1][oldY+1] == player.opponent.red){
                     this.kill = true;
                     this.killx = oldX+1;
@@ -169,6 +170,8 @@ public class Game {
         private void processMoveCommand(int oldX, int oldY, int newX, int newY) {
 
             if (move(this, oldX, oldY, newX, newY)) {
+                wynik = 0;
+                //System.out.println(maxKill(oldX, oldY, this));
                 board[newX][newY] = board[oldX][oldY];
                 board[oldX][oldY] = 0;
                 output.println("MOVE"+oldX+oldY+newX+newY);
@@ -182,5 +185,57 @@ public class Game {
                 kill = false;
             }
         }
+
+
+        // private int maxKill(int x, int y, Player player){ // boczne ogarnac przypadki i jakos wynik sie jebie
+
+        //     //copy board i potem w nim zmieniac odwiedzone i nie
+        //     int[][] pomBoard = new int[8][8];
+
+        //     for(int i = 0; i < 8; i++){
+        //         for(int j = 0; j < 8; j++){
+        //             pomBoard[i][j] = board[i][j];
+        //         }
+        //     }
+
+        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //     if(pomBoard[x-1][y-1] == player.opponent.red){
+        //         if(pomBoard[x-2][y-2] == 0){
+        //             pomBoard[x-1][y-1] = 0;
+        //             wynik++;
+        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //                 maxKill(x-2, y-2, player);
+        //         }
+        //     }
+        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //     if(pomBoard[x+1][y-1] == player.opponent.red){
+        //         if(pomBoard[x+2][y-2] == 0){
+        //             pomBoard[x+1][y-1] = 0;
+        //             wynik++;
+        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //                 maxKill(x+2, y-2, player);
+        //         }
+        //     }
+        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //     if(pomBoard[x+1][y+1] == player.opponent.red){
+        //         if(pomBoard[x+2][y+2] == 0){
+        //             pomBoard[x+1][y+1] = 0;
+        //             wynik++;
+        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //                 maxKill(x+2, y+2, player);
+        //         }
+        //     }
+        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //     if(pomBoard[x-1][y+1] == player.opponent.red){
+        //         if(pomBoard[x-2][y+2] == 0){
+        //             pomBoard[x-1][y+1] = 0;
+        //             wynik++;
+        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
+        //                 maxKill(x-2, y+2, player);
+        //         }
+        //     }
+
+        //     return wynik;
+        // }
     }
 }

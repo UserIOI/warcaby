@@ -15,8 +15,21 @@ public class Client {
     public Scanner in = new Scanner(System.in);
     private PrintWriter out;
 
-    private boolean biciedotylu = false;
-    private int boardSize = 8;
+    /*
+     * Zmienne do tworzenia planszy
+     */
+    static boolean bicieDoTylu;
+    static boolean kolorRogu; // jesli ciemny w rogu to true
+    static int boardSize;
+
+    /* 
+     * Tu jakas funkcja do ustawiania zmiennych do gry 
+     */
+    public static void setRules(boolean bicie, boolean kolor, int size){
+        bicieDoTylu = bicie;
+        kolorRogu = kolor;
+        boardSize = size;
+    }
 
     public String waitForServer(){
         var response = in.nextLine();
@@ -37,21 +50,23 @@ public class Client {
 
     public Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 58901);
-        in = new Scanner(socket.getInputStream());
+        in = new Scanner(socket.getInputStream());  
         out = new PrintWriter(socket.getOutputStream(), true);
         
-        startApp(this /* boolean biciedotylu, int boardSize */);
+        startApp(this, bicieDoTylu, kolorRogu, boardSize);
 
     }
 
-    public void startApp(Client client /* boolean biciedotylu, int boardSize */){
+    public void startApp(Client client, boolean bicieDoTylu, boolean kolorRogu, int boardSize){
         App app = new App();
-        app.mainCall(client /* boolean biciedotylu, int boardSize */);
+        app.mainCall(client, bicieDoTylu, kolorRogu, boardSize);
     }
 
 
     public static void main(String[] args) throws Exception{
 
+
+        setRules(false, true, 10);
         Client client = new Client("localhost");
 
         //powinien wpisywac w jaka wersje chce grac client

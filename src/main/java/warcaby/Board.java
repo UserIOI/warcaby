@@ -16,32 +16,40 @@ import javafx.scene.layout.Pane;
 
 public class Board implements Runnable {
 
+    public static int kafelekSize;
 
     BorderPane root = new BorderPane();
 
     boolean biciedotylu = false;
 
-    Pawn[][] tabPawns = new Pawn[8][8]; //do zmiany przy wersji polskiej na 10 x 10
+    Pawn[][] tabPawns; //do zmiany przy wersji polskiej na 10 x 10
 
     Client client;
 
-    Kafelek[][] tablica = new Kafelek[8][8]; //do zmiany przy wersji polskiej na 10 x 10
+    Pane pane = new Pane();
+
+    Kafelek[][] tablica; //do zmiany przy wersji polskiej na 10 x 10
     private int toBoard(double pixel){
         //System.out.println(pixel);
-        return (int)((pixel)/100);
+        return (int)((pixel)/kafelekSize);
     }
 
     /* 
      * width - szerokosc planszy jako ilosc pol
      * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
+     * cl - client
+     * biciedotylu - jesli true to mozna bic do tylu 
     */
     public Board(int width, Boolean bol, Client cl, boolean biciedotylu){
         //System.out.println("Board "+ cl);
+        kafelekSize = 1200/width - 30;
+        tablica = new Kafelek[width][width];
+        tabPawns = new Pawn[width][width];
         this.biciedotylu = biciedotylu;
         Thread watek = new Thread(this);
         watek.start();
         System.out.println();
-        root.setPrefSize(width * 100, width * 100);
+        root.setPrefSize(width * kafelekSize, width * kafelekSize);
 
         client = cl;
         //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
@@ -52,7 +60,7 @@ public class Board implements Runnable {
 
         //GridPane grid = new GridPane();
 
-        Pane pane = new Pane();
+        
         root.setCenter(pane);
 
         /* 
@@ -60,7 +68,7 @@ public class Board implements Runnable {
          */
         for( int i = 0; i <  width; i++){
             for( int j = 0; j < width; j++){
-                Kafelek kafelek = new Kafelek(i, j, bol);
+                Kafelek kafelek = new Kafelek(i, j, bol, kafelekSize);
                 pane.getChildren().add(kafelek);
                 tablica[i][j] = kafelek;
 
@@ -69,13 +77,13 @@ public class Board implements Runnable {
         /*
          * Dodawanie pionkow
          */
-        for( int i = 7; i >= 0; i--){ //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
-            for( int j = 7; j >= 0; j--){ //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
-                if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j < 3)){  //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
+        for( int i = width - 1; i >= 0; i--){ 
+            for( int j = width - 1; j >= 0; j--){ 
+                if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j < width/2 - 1)){  
 
-                    Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25); 
+                    Pawn pionek = new Pawn(i*kafelekSize + kafelekSize/2, j * kafelekSize + kafelekSize/2, kafelekSize/4); 
                     tabPawns[i][j] = pionek;
-                    tablica[i][j].addPawn();
+                    //tablica[i][j].addPawn();
                     pionek.setColor(Color.valueOf("#c40003"));
 
                     pane.getChildren().add(pionek);
@@ -83,21 +91,21 @@ public class Board implements Runnable {
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                        cl.pushToServer((int)pionek.oldX/kafelekSize, (int)pionek.oldY/kafelekSize, newX, newY);
                         pionek.abortMove();
                     });
                 }
-                else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > 4 )){ //tu tez trzeba uzaleznic to od zmiennej do wersji polskiej 10 x 10
-                    Pawn pionek = new Pawn(i*100 + 50, j * 100 + 50, 25);
+                else if((tablica[i][j].jakiKolor() == kolorKafelka.CIEMNY && j > width/2 )){ 
+                    Pawn pionek = new Pawn(i*kafelekSize + kafelekSize/2, j * kafelekSize + kafelekSize/2, kafelekSize/4);
                     tabPawns[i][j] = pionek;
                     pionek.setColor(Color.valueOf("#fff9f4"));
 
                     pane.getChildren().add(pionek);
-                    tablica[i][j].addPawn();
+                    //tablica[i][j].addPawn();
                     pionek.setOnMouseReleased(e -> {
                         int newX = toBoard(e.getSceneX());
                         int newY = toBoard(e.getSceneY());
-                        cl.pushToServer((int)pionek.oldX/100, (int)pionek.oldY/100, newX, newY);
+                        cl.pushToServer((int)pionek.oldX/kafelekSize, (int)pionek.oldY/kafelekSize, newX, newY);
                         pionek.abortMove();
                     });
                 }
@@ -136,9 +144,13 @@ public class Board implements Runnable {
     }
 
     public void killpionek(int x, int y){
+        // pane.getChildren().remove(tabPawns[x][y]);
         tabPawns[x][y].move(1000, 1000);
         tabPawns[x][y] = null;
     }
 
+    public void addQueen(int x, int y){
+
+    }
 
 }

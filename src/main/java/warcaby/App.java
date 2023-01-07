@@ -10,18 +10,22 @@ public class App extends Application{
 
     static Board board;
     static Client client1;
-    static Boolean bicie = false; // false jesli bez bicia do tylu a true jesli z biciem do tylu
-    static int boardSize = 8; // wielkosc planszy, tez do zmiany przy wywolywaniu u clienta
+    static boolean bicieDoTyluApp;
+    static int boardSizeApp;
+    static boolean kolorRoguApp; // jesli ciemny w rogu to true
 
-    public void mainCall(Client client){
+    public void mainCall(Client client, boolean bicieDoTylu, boolean kolorRogu, int boardSize){
         client1 = client;
+        bicieDoTyluApp = bicieDoTylu;
+        boardSizeApp = boardSize;
+        kolorRoguApp = kolorRogu;
         //System.out.println("mainCall " +client);
         main(null);
     }
 
     public static void createBoard(Client client){
         //System.out.println("createBoard " + client);
-        board = new Board(8, true, client, bicie);
+        board = new Board(boardSizeApp, kolorRoguApp, client, bicieDoTyluApp);
         //System.out.println(board.client);
     }
 
@@ -37,6 +41,4 @@ public class App extends Application{
         createBoard(client1);
         launch(args);
     }
-
-
 }
