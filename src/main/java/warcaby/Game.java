@@ -11,11 +11,12 @@ public class Game {
     Boolean kill = false;
     Boolean biciewtyl = false;
     int killx, killy;
-    int wynik;
+    int wynik, wynikMax;
     /*
      * tu serwer wrzuci jaka ma miec dlugosc plansza
      */
     int width = 8;
+    int[][] pomBoard = new int[width][width];
 
     public Game() {
         board = new int[width][width];
@@ -54,9 +55,13 @@ public class Game {
     // }
 
     public synchronized boolean move(Player player, int oldX, int oldY, int newX, int newY) {
+
         /*
          * sprawdzic najpierw czy pionek jest dama czy nie - 1 or 11 2 or 22
          */
+        if(board[oldX][oldY] > 2){ // jesli jest to dama
+            
+        }
         if (player != currentPlayer) {
             System.out.println("player != currentPlayer");
             return false;
@@ -190,17 +195,17 @@ public class Game {
                 
                 /*
                  * tu sprawdzamy czy jest damka i wysylamy do clienta DAMKA x y
-                 * board[newX][newY] = 22 or 11 w zaleznosci czy board[newX][newY] = 1 or 2
+                 * board[newX][newY] = 20 or 10 w zaleznosci czy board[newX][newY] = 1 or 2
                  */
                 if(kierunek == -1 && newY == 0){ //white
                     output.println("DAMA"+newX+newY);
                     opponent.output.println("DAMA"+newX+newY);
-                    board[newX][newY] = 11;
+                    board[newX][newY] = 10;
                 }
                 else if(kierunek == 1 && newY == 7){ //red
                     output.println("DAMA"+newX+newY);
                     opponent.output.println("DAMA"+newX+newY);
-                    board[newX][newY] = 22;
+                    board[newX][newY] = 20;
                 }
             }
             if(kill){
@@ -209,58 +214,82 @@ public class Game {
                 opponent.output.println("KILL"+killx+killy);
                 kill = false;
             }
+
+            allKill(this);
+            allKill(this.opponent);
+            
+            for(int i = 0; i < width; i++){
+                for(int j = 0; j < width; j++){
+                    System.out.print(pomBoard[j][i] + " ");
+                }
+                System.out.println(" ");
+            }
+
+            for(int i = 0; i < width; i++){
+                for(int j = 0; j < width; j++){
+                    pomBoard[i][j] = 0;
+                }
+            }
+
         }
 
+        private void allKill(Player player){
 
-        // private int maxKill(int x, int y, Player player){ // boczne ogarnac przypadki i jakos wynik sie jebie
+            for(int i = 0; i < width; i++){
+                for(int j = 0; j < width; j++){
+                    if(board[i][j] == player.red){
+                        pomBoard[i][j] = maxKill(i, j, player, 0) * player.kierunek;
+                        wynik = 0;
+                        wynikMax = 0;
+                    }
+                }
+            }
+        }
 
-        //     //copy board i potem w nim zmieniac odwiedzone i nie
-        //     int[][] pomBoard = new int[8][8];
+        /* kierunki a (skąd przyszliśmy rekurencyjnie aby nie sprawdzac drogi w ktorej bylismy przed chwila)
+         *  1   2
+         *    x
+         *  3   4
+         */
 
-        //     for(int i = 0; i < 8; i++){
-        //         for(int j = 0; j < 8; j++){
-        //             pomBoard[i][j] = board[i][j];
-        //         }
-        //     }
+        private int maxKill(int x, int y, Player player, int a){ 
 
-        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //     if(pomBoard[x-1][y-1] == player.opponent.red){
-        //         if(pomBoard[x-2][y-2] == 0){
-        //             pomBoard[x-1][y-1] = 0;
-        //             wynik++;
-        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //                 maxKill(x-2, y-2, player);
-        //         }
-        //     }
-        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //     if(pomBoard[x+1][y-1] == player.opponent.red){
-        //         if(pomBoard[x+2][y-2] == 0){
-        //             pomBoard[x+1][y-1] = 0;
-        //             wynik++;
-        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //                 maxKill(x+2, y-2, player);
-        //         }
-        //     }
-        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //     if(pomBoard[x+1][y+1] == player.opponent.red){
-        //         if(pomBoard[x+2][y+2] == 0){
-        //             pomBoard[x+1][y+1] = 0;
-        //             wynik++;
-        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //                 maxKill(x+2, y+2, player);
-        //         }
-        //     }
-        //     if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //     if(pomBoard[x-1][y+1] == player.opponent.red){
-        //         if(pomBoard[x-2][y+2] == 0){
-        //             pomBoard[x-1][y+1] = 0;
-        //             wynik++;
-        //             if(x-2 >= 0 && x-2 <= 7 && y-2 >= 0 && y-2 <= 7)
-        //                 maxKill(x-2, y+2, player);
-        //         }
-        //     }
+        if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
+            if(board[x-1][y-1] == player.opponent.red && a != 1){
+                if(board[x-2][y-2] == 0){
+                    wynik++;
+                    System.out.println("1 if");
+                    maxKill(x-2, y-2, player, 4);
+                }
+            }
+        if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
+            if(board[x+1][y-1] == player.opponent.red && a != 2){
+                if(board[x+2][y-2] == 0){
+                    wynik++;
+                    System.out.println("2 if");
+                    maxKill(x+2, y-2, player, 3);
+                }
+            }
+        if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
+            if(board[x+1][y+1] == player.opponent.red && a != 4){
+                if(board[x+2][y+2] == 0){
+                    wynik++;
+                    System.out.println("3 if");
+                    maxKill(x+2, y+2, player, 1);
+                }
+            }
+        if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
+            if(board[x-1][y+1] == player.opponent.red && a != 3){
+                if(board[x-2][y+2] == 0){
+                    wynik++;
+                    System.out.println("4 if");
+                    maxKill(x-2, y-2, player, 2);
+                }
+            }
 
-        //     return wynik;
-        // }
+            wynikMax = Math.max(wynikMax, wynik);
+            wynik--;
+            return wynikMax;
+        }
     }
 }
