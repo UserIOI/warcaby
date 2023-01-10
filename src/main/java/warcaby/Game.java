@@ -11,15 +11,17 @@ public class Game {
     Boolean kill = false;
     Boolean biciewtyl = false;
     int killx, killy;
-    int wynik, wynikMax;
+    int wynik, wynikMax, globalMax;
     /*
      * tu serwer wrzuci jaka ma miec dlugosc plansza
      */
     int width = 8;
-    int[][] pomBoard = new int[width][width];
+    int[][] pomBoard;
 
     public Game() {
         board = new int[width][width];
+        pomBoard = new int[width][width];
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
                 board[i][j] = 0;
@@ -56,18 +58,38 @@ public class Game {
 
     public synchronized boolean move(Player player, int oldX, int oldY, int newX, int newY) {
 
+
+
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < width; j++){
+                pomBoard[i][j] = 0;
+            }
+        }
+
+        globalMax = 0;
         /*
          * sprawdzic najpierw czy pionek jest dama czy nie - 1 or 11 2 or 22
          */
-        if(board[oldX][oldY] > 2){ // jesli jest to dama
-            
+        allKill(player);
+
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < width; j++){
+                System.out.print(pomBoard[j][i] + " ");
+            }
+            System.out.println(" ");
         }
+        System.out.println(pomBoard[oldX][oldY]);
+
         if (player != currentPlayer) {
             System.out.println("player != currentPlayer");
             return false;
         } else if (player.opponent == null) {
             System.out.println("player.opponent == null");
             return false;
+        // } else if (pomBoard[oldX][oldY] != globalMax){
+        //     System.out.println("Pionek nie ma maksymalnej ilosci bic");
+        //     System.out.println(pomBoard[oldX][oldY] + " " + globalMax);
+        //     return false;
         } else if ((newX + newY) % 2 == 0) {
             System.out.println("(newX + newY) % 2 == 0");
             return false;
@@ -132,6 +154,7 @@ public class Game {
             }
             return false;
         } 
+        
         currentPlayer = currentPlayer.opponent;
         return true;
     }
@@ -184,6 +207,8 @@ public class Game {
 
         private void processMoveCommand(int oldX, int oldY, int newX, int newY) {
 
+            
+
             if (move(this, oldX, oldY, newX, newY)) {
                 //wynik = 0;
                 //System.out.println(maxKill(oldX, oldY, this));
@@ -214,37 +239,26 @@ public class Game {
                 opponent.output.println("KILL"+killx+killy);
                 kill = false;
             }
-
-            allKill(this);
-            allKill(this.opponent);
-            
-            for(int i = 0; i < width; i++){
-                for(int j = 0; j < width; j++){
-                    System.out.print(pomBoard[j][i] + " ");
-                }
-                System.out.println(" ");
-            }
-
-            for(int i = 0; i < width; i++){
-                for(int j = 0; j < width; j++){
-                    pomBoard[i][j] = 0;
-                }
-            }
-
         }
 
+    }
+        /*
+         * Funkcja wywolujaca liczenie najwiekszej mozliwej ilosci zbic dla kazdego pionka danego gracza
+         */
         private void allKill(Player player){
 
             for(int i = 0; i < width; i++){
                 for(int j = 0; j < width; j++){
                     if(board[i][j] == player.red){
-                        pomBoard[i][j] = maxKill(i, j, player, 0) * player.kierunek;
+                        pomBoard[i][j] = maxKill(i, j, player, 0);
                         wynik = 0;
                         wynikMax = 0;
+                        globalMax = Math.max(pomBoard[i][j], globalMax);
                     }
                 }
             }
         }
+
 
         /* kierunki a (skąd przyszliśmy rekurencyjnie aby nie sprawdzac drogi w ktorej bylismy przed chwila)
          *  1   2
@@ -252,44 +266,72 @@ public class Game {
          *  3   4
          */
 
-        private int maxKill(int x, int y, Player player, int a){ 
+        /*
+         * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia
+         */
+            private int maxKill(int x, int y, Player player, int a){ 
+            if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
+                if(board[x-1][y-1] == player.opponent.red && a != 1){
+                    if(board[x-2][y-2] == 0){
+                        wynik++;
+                        System.out.println("1 if");
+                        maxKill(x-2, y-2, player, 4);
+                    }
+                }
+            if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
+                if(board[x+1][y-1] == player.opponent.red && a != 2){
+                    if(board[x+2][y-2] == 0){
+                        wynik++;
+                        System.out.println("2 if");
+                        maxKill(x+2, y-2, player, 3);
+                    }
+                }
+            if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
+                if(board[x+1][y+1] == player.opponent.red && a != 4){
+                    if(board[x+2][y+2] == 0){
+                        wynik++;
+                        System.out.println("3 if");
+                        maxKill(x+2, y+2, player, 1);
+                    }
+                }
+            if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
+                if(board[x-1][y+1] == player.opponent.red && a != 3){
+                    if(board[x-2][y+2] == 0){
+                        wynik++;
+                        System.out.println("4 if");
+                        maxKill(x-2, y-2, player, 2);
+                    }
+                }
 
-        if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
-            if(board[x-1][y-1] == player.opponent.red && a != 1){
-                if(board[x-2][y-2] == 0){
-                    wynik++;
-                    System.out.println("1 if");
-                    maxKill(x-2, y-2, player, 4);
-                }
-            }
-        if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
-            if(board[x+1][y-1] == player.opponent.red && a != 2){
-                if(board[x+2][y-2] == 0){
-                    wynik++;
-                    System.out.println("2 if");
-                    maxKill(x+2, y-2, player, 3);
-                }
-            }
-        if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
-            if(board[x+1][y+1] == player.opponent.red && a != 4){
-                if(board[x+2][y+2] == 0){
-                    wynik++;
-                    System.out.println("3 if");
-                    maxKill(x+2, y+2, player, 1);
-                }
-            }
-        if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
-            if(board[x-1][y+1] == player.opponent.red && a != 3){
-                if(board[x-2][y+2] == 0){
-                    wynik++;
-                    System.out.println("4 if");
-                    maxKill(x-2, y-2, player, 2);
-                }
-            }
+                wynikMax = Math.max(wynikMax, wynik);
+                wynik--;
+                return wynikMax;
+   }
 
-            wynikMax = Math.max(wynikMax, wynik);
-            wynik--;
-            return wynikMax;
-        }
-    }
+
+//    /*
+//              * Liczenie bic dla wszystkich pionkow naszych i przeciwnika
+//              */
+//             allKill(this);
+//             allKill(this.opponent);
+
+//             /*
+//              * Wypisanie wynikow 
+//              */
+//             for(int i = 0; i < width; i++){
+//                 for(int j = 0; j < width; j++){
+//                     System.out.print(pomBoard[j][i] + " ");
+//                 }
+//                 System.out.println(" ");
+//             }
+
+
+//             /*
+//              * Czyszczenie tablicy wynikow
+//              */
+//             for(int i = 0; i < width; i++){
+//                 for(int j = 0; j < width; j++){
+//                     pomBoard[i][j] = 0;
+//                 }
+//             }
 }
