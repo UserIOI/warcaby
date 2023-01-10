@@ -52,9 +52,29 @@ public class Client {
         socket = new Socket(serverAddress, 58901);
         in = new Scanner(socket.getInputStream());  
         out = new PrintWriter(socket.getOutputStream(), true);
-        
+        String rules = this.getRules(in,out);
+        System.out.println(rules);
+        System.out.println(Integer.parseInt(rules.substring(0,2)));
+        setRules(false,true,Integer.parseInt(rules.substring(0,2)));
         startApp(this, bicieDoTylu, kolorRogu, boardSize);
 
+    }
+
+    public String getRules(Scanner in,PrintWriter out){
+        int count = 0;
+        int types;
+        String nextLine;
+        Scanner terminal = new Scanner(System.in);
+
+        types = Integer.parseInt(in.nextLine());
+        System.out.println("istnieje " + types + " tyle typów gry");
+        while (count < types){
+            System.out.println(in.nextLine());
+            count++;
+        }
+        System.out.println("Który typ gry chcesz wybrac: ");
+        out.println(terminal.nextLine());
+        return in.nextLine();
     }
 
     public void startApp(Client client, boolean bicieDoTylu, boolean kolorRogu, int boardSize){
@@ -64,6 +84,7 @@ public class Client {
 
 
     public static void main(String[] args) throws Exception{
+
 
 
         setRules(false, true, 8);

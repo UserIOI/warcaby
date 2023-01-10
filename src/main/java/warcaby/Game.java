@@ -6,19 +6,23 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Game {
+    Game thisGame = this;
     Player currentPlayer;
     int[][] board;
     Boolean kill = false;
     Boolean biciewtyl = false;
+    Boolean edgeColor;
     int killx, killy;
     int wynik, wynikMax;
     /*
      * tu serwer wrzuci jaka ma miec dlugosc plansza
      */
-    int width = 8;
-    int[][] pomBoard = new int[width][width];
+    int width;
+    int[][] pomBoard;
 
-    public Game() {
+    public void Start(int width, boolean edgeColor) {
+        this.width = width;
+        this.edgeColor = edgeColor;
         board = new int[width][width];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
@@ -33,6 +37,7 @@ public class Game {
                 }
             }
         }
+        int[][] pomBoard = new int[width][width];
     }
 
     //    public boolean check(int x,int y){
@@ -53,6 +58,7 @@ public class Game {
     //     currentPlayer = currentPlayer.opponent;
     //     return true;
     // }
+
 
     public synchronized boolean move(Player player, int oldX, int oldY, int newX, int newY) {
 
@@ -138,6 +144,7 @@ public class Game {
     
 
     public class Player implements Runnable {
+        String gameType;
         int red;
         int kierunek;
         Player opponent;
@@ -160,6 +167,24 @@ public class Game {
             } else {
                 opponent = currentPlayer;
                 opponent.opponent = this;
+            }
+            output.println("3");
+            output.println("niemieckie");
+            output.println("polskie");
+            output.println("kanadyjskie");
+            gameType = input.nextLine();
+            System.out.println(gameType);
+            if (gameType.equals("niemieckie")){
+                thisGame.Start(8,true);
+                output.println("081");
+            }
+            if (gameType.equals("polskie")){
+                thisGame.Start(10,true);
+                output.println("101");
+            }
+            if (gameType.equals("kanadyjskie")){
+                output.println("121");
+                thisGame.Start(12,true);
             }
         }
 
