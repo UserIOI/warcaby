@@ -67,13 +67,15 @@ public class Client {
         Scanner terminal = new Scanner(System.in);
 
         types = Integer.parseInt(in.nextLine());
-        System.out.println("istnieje " + types + " tyle typów gry");
-        while (count < types){
-            System.out.println(in.nextLine());
-            count++;
+        if(types!=0) {
+            System.out.println("istnieje " + types + " tyle typów gry");
+            while (count < types) {
+                System.out.println(in.nextLine());
+                count++;
+            }
+            System.out.println("Który typ gry chcesz wybrac: ");
+            out.println(terminal.nextLine());
         }
-        System.out.println("Który typ gry chcesz wybrac: ");
-        out.println(terminal.nextLine());
         return in.nextLine();
     }
 

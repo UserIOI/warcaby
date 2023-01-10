@@ -6,7 +6,11 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Game {
-    Game thisGame = this;
+    private Game thisGame = this;
+
+    private String rules;
+
+    boolean rulesSetted;
     Player currentPlayer;
     int[][] board;
     Boolean kill = false;
@@ -168,23 +172,32 @@ public class Game {
                 opponent = currentPlayer;
                 opponent.opponent = this;
             }
-            output.println("3");
-            output.println("niemieckie");
-            output.println("polskie");
-            output.println("kanadyjskie");
-            gameType = input.nextLine();
-            System.out.println(gameType);
-            if (gameType.equals("niemieckie")){
-                thisGame.Start(8,true);
-                output.println("081");
-            }
-            if (gameType.equals("polskie")){
-                thisGame.Start(10,true);
-                output.println("101");
-            }
-            if (gameType.equals("kanadyjskie")){
-                output.println("121");
-                thisGame.Start(12,true);
+            if(!rulesSetted) {
+                output.println("3");
+                output.println("niemieckie");
+                output.println("polskie");
+                output.println("kanadyjskie");
+                gameType = input.nextLine();
+                System.out.println(gameType);
+                if (gameType.equals("niemieckie")) {
+                    thisGame.Start(8, true);
+                    rules = "081";
+                    output.println("081");
+                }
+                if (gameType.equals("polskie")) {
+                    thisGame.Start(10, true);
+                    rules = "101";
+                    output.println("101");
+                }
+                if (gameType.equals("kanadyjskie")) {
+                    thisGame.Start(12, true);
+                    rules = "101";
+                    output.println("121");
+                }
+                rulesSetted = true;
+            }else{
+                output.println("0");
+                output.println(rules);
             }
         }
 
