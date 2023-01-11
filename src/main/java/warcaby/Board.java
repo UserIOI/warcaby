@@ -42,7 +42,7 @@ public class Board implements Runnable {
     */
     public Board(int width, Boolean bol, Client cl, boolean biciedotylu){
         //System.out.println("Board "+ cl);
-        kafelekSize = 1200/width - 30;
+        kafelekSize = 800/width - 20;
         tablica = new Kafelek[width][width];
         tabPawns = new Pawn[width][width];
         this.biciedotylu = biciedotylu;
