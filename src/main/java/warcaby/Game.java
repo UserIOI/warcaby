@@ -648,7 +648,7 @@ public class Game {
         /*
          * Funkcja przechodzaca od punktu odlX,oldY do newX,newY i liczaca ile jest po drodze pionkow
          */
-        private int pionkiPoDrodze(int oldX, int oldY, int newX, int newY, int kierunek){
+        public int pionkiPoDrodze(int oldX, int oldY, int newX, int newY, int kierunek){
             int odpowiedz = 0;
             int x = oldX;
             int y = oldY;
