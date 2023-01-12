@@ -3,8 +3,6 @@ package warcaby;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
-// import javafx.event.EventHandler;
-// import javafx.scene.input.MouseEvent;
 
 public class Pawn extends Circle{
 
@@ -17,12 +15,10 @@ public class Pawn extends Circle{
     double oldY;
     double mouseX,mouseY;
     Color colorPawn;
-    /** konstruktor dziedziczymy po klasie Circle, dodajemy GridPane na ktorym tworzymy plansze i eventy zwiazane z myszka */
+
+    /** konstruktor dziedziczymy po klasie Circle */
     public Pawn(double x, double y, double radius) {
         super(x, y, radius);
-        /* Cos sie walilo z abortmove wiec zmienilem oldX = x na oldX = x -25 i jest teraz git 
-         * wiec bym nie zmieniał narazie chyba ze wiesz czemu nie dzialalo to spoko
-         */
         oldX = x - warcaby.Board.kafelekSize/4;
         oldY = y - warcaby.Board.kafelekSize/4;
         setOnMousePressed(e -> {
@@ -57,24 +53,35 @@ public class Pawn extends Circle{
         this.setRadius(this.getRadius() + r);
     }
 
+    /**
+     * Metoda ustawiajaca kolor pionka
+     * @param color
+     */
     public void setColor(Color color){
         setFill(color);
         colorPawn = color;
     }
 
+    /**
+     * Metoda odpowiadajaca za przemieszczanie pionka na miejsce x,y
+     * @param x
+     * @param y
+     */
     public void move(int x, int y) {
         oldX = (x * warcaby.Board.kafelekSize)+ warcaby.Board.kafelekSize/4;
         oldY = (y * warcaby.Board.kafelekSize)+ warcaby.Board.kafelekSize/4;
         relocate(oldX,oldY);
     }
+
+    /** Metoda zatrzymujaca ruch */
     public void abortMove(){
         relocate(oldX,oldY);
     }
 
-    public void setQueen(){ //moze 2 funkcje po prostu dla bialych i czarnych
+    /** Metoda ustawiania krolowej jako pionka */
+    public void setQueen(){
         isQueen = true;
-        //trzeba sprawdzic jaki kolor ma pionek
-        if( colorPawn.equals(Color.valueOf("#c40003"))){ //czerwony
+        if( colorPawn.equals(Color.valueOf("#c40003"))){ 
             System.out.println(colorPawn.toString());
             setColor(Color.valueOf("#700103"));
  
@@ -85,36 +92,4 @@ public class Pawn extends Circle{
         }
 
     }
-
-
-    /** implementacja przesuwania figury gdy jest aktywna */
-//    final class PawnEventHandler implements EventHandler<MouseEvent>{
-
-//        Pawn pawn;
- //       private double x;
-  //      private double y;
-
-  //      private void doMove(MouseEvent event) {
-
- //           double dx = event.getX() - x;
- //           double dy = event.getY() - y;
-
- //           pawn.addX(dx);
- //           pawn.addY(dy);
- //           x += dx;
- //           y += dy;
-  //      }
-
-
-        /**kiedy myszka sie rusza wewnatrz figury to probojemy ja przesunac - jesli jest aktywna to ja przesuwamy*/
-//        @Override
-//        public void handle(MouseEvent event) {
-
-//            pawn = (Pawn) event.getSource();
-//            if (event.getEventType()==MouseEvent.MOUSE_DRAGGED){
-//                doMove(event);
-//            }
-
-//        }
-//    }
 }

@@ -19,7 +19,7 @@ public class Client {
      * Zmienne do tworzenia planszy
      */
     static boolean bicieDoTylu;
-    static boolean kolorRogu; // jesli ciemny w rogu to true
+    static boolean kolorRogu;
     static int boardSize;
 
     /* 
@@ -42,10 +42,7 @@ public class Client {
         this.oldY = oldY;
         this.newX = newX;
         this.newY = newY;
-        //System.out.println(" z pushToServer Client " + oldX +" "+ oldY +" "+ newX +" "+ newY);
         out.println("MOVE" + oldX + oldY + newX + newY);
-        //var response = in.nextLine();
-        //System.out.println(response);
     }
 
     public Client(String serverAddress) throws Exception {
@@ -55,8 +52,10 @@ public class Client {
         String rules = this.getRules(in,out);
         System.out.println(rules);
         System.out.println(Integer.parseInt(rules.substring(0,2)));
+        
         if(Integer.parseInt(rules.substring(2,3 )) == 0) kolorRogu = false;
         else kolorRogu = true;
+
         setRules(false, kolorRogu, Integer.parseInt(rules.substring(0,2)));
         startApp(this, bicieDoTylu, kolorRogu, boardSize);
 
@@ -65,7 +64,6 @@ public class Client {
     public String getRules(Scanner in,PrintWriter out){
         int count = 0;
         int types;
-        String nextLine;
         Scanner terminal = new Scanner(System.in);
 
         types = Integer.parseInt(in.nextLine());
@@ -89,12 +87,7 @@ public class Client {
 
     public static void main(String[] args) throws Exception{
 
-
-
         setRules(false, true, 8);
         Client client = new Client("localhost");
-
-        //powinien wpisywac w jaka wersje chce grac client
-        //jakis scanner i potem w startApp dodajemy boolean czy moze bic do tylu czy nie i rozmiar planszy
     }
 }

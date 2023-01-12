@@ -10,11 +10,16 @@ public class Kafelek extends Rectangle{
         CIEMNY
     }
 
-    int x,y;
+    int x, y;
     kolorKafelka jaki;
-    //Boolean haspawn = false;
 
-
+    /**
+     * konstruktor dziedziczymy po klasie Rectangle i tworzymy kafelek ktory znajduje sie w miejscu x,y 
+     * @param x
+     * @param y
+     * @param bol mowi nam czy dany kafelek w zmiennych parzystych powinien byc jasny czy ciemny
+     * @param size mowi nam o rozmarze kafelka
+     */
     public Kafelek(int x, int y, Boolean bol, int size){
         this.x = x;
         this.y = y;
@@ -45,19 +50,12 @@ public class Kafelek extends Rectangle{
         }
     }
 
+    /**
+     * Metoda zwracajaca kolor kafelka
+     * @return
+     */
     public kolorKafelka jakiKolor(){
         return jaki;
     }
 
-    // public Boolean hasPawn(){
-    //     return haspawn;
-    // }
-
-    // public void addPawn(){
-    //     this.haspawn = true;
-    // }
-
-    // public void deletePawn(){
-    //     this.haspawn = false;
-    // }
 }

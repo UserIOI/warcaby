@@ -10,6 +10,7 @@ public class Game {
 
     private String rules;
 
+    int remember;
     boolean rulesSetted;
     boolean flag = false;
     int flagx, flagy;
@@ -20,12 +21,14 @@ public class Game {
     Boolean edgeColor;
     int killx, killy;
     int wynik, wynikMax, globalMax;
-    /*
-     * tu serwer wrzuci jaka ma miec dlugosc plansza
-     */
     int width;
     int[][] pomBoard;
 
+    /**
+     * Metoda odpowiadajaca za stworzenie planszy po stronie serwera oraz ustawnienie na niej pionkow w zaleznosci
+     * @param width 
+     * @param edgeColor
+     */
     public void Start(int width, boolean edgeColor) {
         this.width = width;
         this.edgeColor = edgeColor;
@@ -38,21 +41,21 @@ public class Game {
                     board[i][j] = 0;
                     if ((j < width/2 - 1) && ((i + j) % 2 == 1)) {
                         board[i][j] = 2;//RED PAWNS
-                        // board[i][j] = 22 -> RED QUEEN
+                        // board[i][j] = 20 -> RED QUEEN
                     }
                     if ((j > width/2) && ((i + j) % 2 == 1)) {
                         board[i][j] = 1;//WHITE PAWNS
-                        // board[i][j] = 11 -> WHITE QUEEN
+                        // board[i][j] = 10 -> WHITE QUEEN
                     }
                 } else if(!edgeColor){
                     board[i][j] = 0;
                     if ((j < width/2 - 1) && ((i + j) % 2 == 0)) {
                         board[i][j] = 2;//RED PAWNS
-                        // board[i][j] = 22 -> RED QUEEN
+                        // board[i][j] = 20 -> RED QUEEN
                     }
                     if ((j > width/2) && ((i + j) % 2 == 0)) {
                         board[i][j] = 1;//WHITE PAWNS
-                        // board[i][j] = 11 -> WHITE QUEEN
+                        // board[i][j] = 10 -> WHITE QUEEN
                     }
                 }
                 
@@ -82,6 +85,9 @@ public class Game {
             allKill(player);
         }
 
+        /*
+         * Wypisanie tablicy z mozliwosciami bic
+         */
         for(int i = 0; i < width; i++){
             for(int j = 0; j < width; j++){
                 System.out.print(pomBoard[j][i] + " ");
@@ -89,8 +95,6 @@ public class Game {
             System.out.println(" ");
         }
         System.out.println(pomBoard[oldX][oldY]);
-
-        //System.out.println("pusty commit");
 
         /*
          * Logika bez bic
@@ -226,7 +230,7 @@ public class Game {
         /*
          * logika do bic damka
          */
-        if(pomBoard[oldX][oldY] == globalMax && board[oldX][oldY] == player.red * 10){
+        if(pomBoard[oldX][oldY] == globalMax && board[oldX][oldY] == player.red * 10 && globalMax > 0 ){
             if(flag){
                 if(oldX != flagx && oldY != flagy ){
                     System.out.println("zly pionek");
@@ -236,7 +240,7 @@ public class Game {
 
             if(newX < oldX && newY < oldY){     /* 1 */
                 System.out.println("dama 1 if kila");
-                if(board[newX+1][newY+1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, player, 1) == 1){
+                if(board[newX+1][newY+1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, 1) == 1){
                     this.kill = true;
                     this.killx = newX+1;
                     this.killy = newY+1;
@@ -256,7 +260,7 @@ public class Game {
                 return false;
             } else if(newX > oldX && newY < oldY){    /* 2 */
                 System.out.println("dama 2 if kila");
-                if(board[newX-1][newY+1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, player, 2) == 1){
+                if(board[newX-1][newY+1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, 2) == 1){
                     this.kill = true;
                     this.killx = newX-1;
                     this.killy = newY+1;
@@ -277,8 +281,8 @@ public class Game {
             } else if(newX < oldX && newY > oldY){    /* 3 */
                 System.out.println("dama 3 if kila");
                 System.out.println(board[newX+1][newY-1] + " " + board[newX][newY]);
-                System.out.println("pionki po drodze : " + pionkiPoDrodze(oldX, oldY, newX, newY, player, 3));
-                if(board[newX+1][newY-1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, player, 3) == 1){
+                System.out.println("pionki po drodze : " + pionkiPoDrodze(oldX, oldY, newX, newY, 3));
+                if(board[newX+1][newY-1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, 3) == 1){
                     this.kill = true;
                     this.killx = newX+1;
                     this.killy = newY-1;
@@ -298,7 +302,7 @@ public class Game {
                 return false;
             } else if(newX > oldX && newY > oldY){    /* 4 */
                 System.out.println("dama 4 if kila");
-                if(board[newX-1][newY-1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, player, 4) == 1){
+                if(board[newX-1][newY-1] == player.opponent.red && board[newX][newY] == 0 && pionkiPoDrodze(oldX, oldY, newX, newY, 4) == 1){
                     this.kill = true;
                     this.killx = newX-1;
                     this.killy = newY-1;
@@ -324,8 +328,18 @@ public class Game {
          */
         if((Math.abs(oldX - newX) > 2 && board[oldX][oldY] > 3 ) || (Math.abs(oldY - newY) > 2 && board[oldX][oldY] > 3 )){
             System.out.println("ruch damka");
-            if(Math.abs(oldX - newX) != Math.abs(oldY - newY)) {
+            if(newX < oldX && newY < oldY){     /* 1 */
+                remember = 1;
+            } else if(newX > oldX && newY < oldY){    /* 2 */
+                remember = 2;
+            } else if(newX < oldX && newY > oldY){    /* 3 */
+                remember = 3;
+            } else if(newX > oldX && newY > oldY){    /* 4 */
+                remember = 4;
+            }
+            if(Math.abs(oldX - newX) != Math.abs(oldY - newY) || pionkiPoDrodze(oldX, oldY, newX, newY, remember) != 0) {
                 System.out.println("nie ten sam rzad");
+                System.out.println("pionki po drodze " + pionkiPoDrodze(oldX, oldY, newX, newY, remember));
                 return false;
             }
             currentPlayer = currentPlayer.opponent;
@@ -634,7 +648,7 @@ public class Game {
         /*
          * Funkcja przechodzaca od punktu odlX,oldY do newX,newY i liczaca ile jest po drodze pionkow
          */
-        private int pionkiPoDrodze(int oldX, int oldY, int newX, int newY, Player player, int kierunek){
+        private int pionkiPoDrodze(int oldX, int oldY, int newX, int newY, int kierunek){
             int odpowiedz = 0;
             int x = oldX;
             int y = oldY;
