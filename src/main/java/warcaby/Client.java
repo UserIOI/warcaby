@@ -55,7 +55,9 @@ public class Client {
         String rules = this.getRules(in,out);
         System.out.println(rules);
         System.out.println(Integer.parseInt(rules.substring(0,2)));
-        setRules(false,true,Integer.parseInt(rules.substring(0,2)));
+        if(Integer.parseInt(rules.substring(2,3 )) == 0) kolorRogu = false;
+        else kolorRogu = true;
+        setRules(false, kolorRogu, Integer.parseInt(rules.substring(0,2)));
         startApp(this, bicieDoTylu, kolorRogu, boardSize);
 
     }

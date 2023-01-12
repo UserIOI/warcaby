@@ -34,15 +34,28 @@ public class Game {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
-                board[i][j] = 0;
-                if ((j < width/2 - 1) && ((i + j) % 2 == 1)) {
-                    board[i][j] = 2;//RED PAWNS
-                    // board[i][j] = 22 -> RED QUEEN
+                if(edgeColor){
+                    board[i][j] = 0;
+                    if ((j < width/2 - 1) && ((i + j) % 2 == 1)) {
+                        board[i][j] = 2;//RED PAWNS
+                        // board[i][j] = 22 -> RED QUEEN
+                    }
+                    if ((j > width/2) && ((i + j) % 2 == 1)) {
+                        board[i][j] = 1;//WHITE PAWNS
+                        // board[i][j] = 11 -> WHITE QUEEN
+                    }
+                } else if(!edgeColor){
+                    board[i][j] = 0;
+                    if ((j < width/2 - 1) && ((i + j) % 2 == 0)) {
+                        board[i][j] = 2;//RED PAWNS
+                        // board[i][j] = 22 -> RED QUEEN
+                    }
+                    if ((j > width/2) && ((i + j) % 2 == 0)) {
+                        board[i][j] = 1;//WHITE PAWNS
+                        // board[i][j] = 11 -> WHITE QUEEN
+                    }
                 }
-                if ((j > width/2) && ((i + j) % 2 == 1)) {
-                    board[i][j] = 1;//WHITE PAWNS
-                    // board[i][j] = 11 -> WHITE QUEEN
-                }
+                
             }
         }
     }
@@ -383,9 +396,9 @@ public class Game {
                 gameType = input.nextLine();
                 System.out.println(gameType);
                 if (gameType.equals("niemieckie")) {
-                    thisGame.Start(8, true);
-                    rules = "081";
-                    output.println("081");
+                    thisGame.Start(8, false);
+                    rules = "080";
+                    output.println("080");
                 }
                 if (gameType.equals("polskie")) {
                     thisGame.Start(10, true);
