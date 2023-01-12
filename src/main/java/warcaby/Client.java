@@ -15,15 +15,16 @@ public class Client {
     public Scanner in = new Scanner(System.in);
     private PrintWriter out;
 
-    /*
-     * Zmienne do tworzenia planszy
-     */
+
     static boolean bicieDoTylu;
     static boolean kolorRogu;
     static int boardSize;
 
-    /* 
-     * Tu jakas funkcja do ustawiania zmiennych do gry 
+    /**
+     * Metoda ustawiajaca zasady gry
+     * @param bicie
+     * @param kolor
+     * @param size
      */
     public static void setRules(boolean bicie, boolean kolor, int size){
         bicieDoTylu = bicie;
@@ -31,12 +32,24 @@ public class Client {
         boardSize = size;
     }
 
+
+    /**
+     * Metoda ktora czeka na serwer z wiadomoscia trybu gry
+     * @return
+     */
     public String waitForServer(){
         var response = in.nextLine();
         System.out.println(response);
         return response;
     }
 
+    /**
+     * Metoda podajaca ruch z aplikacji do serwera aby sprawdzil jej poprawnosc
+     * @param oldX 
+     * @param oldY
+     * @param newX
+     * @param newY
+     */
     public void pushToServer(int oldX, int oldY, int newX, int newY){
         this.oldX = oldX;
         this.oldY = oldY;
@@ -45,6 +58,11 @@ public class Client {
         out.println("MOVE" + oldX + oldY + newX + newY);
     }
 
+    /**
+     * Konstruktor clienta 
+     * @param serverAddress 
+     * @throws Exception
+     */
     public Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 58901);
         in = new Scanner(socket.getInputStream());  
@@ -61,6 +79,12 @@ public class Client {
 
     }
 
+    /**
+     * Metoda pobierajaca zasady z serwera oraz pozwala na wybor trybu
+     * @param in
+     * @param out
+     * @return
+     */
     public String getRules(Scanner in,PrintWriter out){
         int count = 0;
         int types;
@@ -79,6 +103,13 @@ public class Client {
         return in.nextLine();
     }
 
+    /**
+     * Metoda uruchamiajaca aplikacje
+     * @param client
+     * @param bicieDoTylu 
+     * @param kolorRogu
+     * @param boardSize
+     */
     public void startApp(Client client, boolean bicieDoTylu, boolean kolorRogu, int boardSize){
         App app = new App();
         app.mainCall(client, bicieDoTylu, kolorRogu, boardSize);

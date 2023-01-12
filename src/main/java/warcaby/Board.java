@@ -1,15 +1,8 @@
 package warcaby;
 
-// import java.awt.Color;
 import javafx.scene.paint.Color;
 import warcaby.Kafelek.kolorKafelka;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-
-import javax.swing.event.SwingPropertyChangeSupport;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 
 
@@ -22,26 +15,31 @@ public class Board implements Runnable {
 
     boolean biciedotylu = false;
 
-    Pawn[][] tabPawns; //do zmiany przy wersji polskiej na 10 x 10
+    Pawn[][] tabPawns;
 
     Client client;
 
     Pane pane = new Pane();
 
-    Kafelek[][] tablica; //do zmiany przy wersji polskiej na 10 x 10
+    Kafelek[][] tablica;
+
+    /**
+     * Metoda zamieniajaca koordynaty myszki na koordynaty planszy
+     * @param pixel
+     * @return
+     */
     private int toBoard(double pixel){
-        //System.out.println(pixel);
         return (int)((pixel)/kafelekSize);
     }
 
-    /* 
-     * width - szerokosc planszy jako ilosc pol
-     * bol - jesli true to rog jest ciemny, jesli false to rog jest jasny
-     * cl - client
-     * biciedotylu - jesli true to mozna bic do tylu 
-    */
+    /**
+     * Konstruktor planszy 
+     * @param width szerokosc planszy jako ilosc pol
+     * @param bol jesli true to lewy dolny rog jest ciemny, jesli false to rog jest jasny
+     * @param cl client
+     * @param biciedotylu jesli true to mozna bic do tylu 
+     */
     public Board(int width, Boolean bol, Client cl, boolean biciedotylu){
-        //System.out.println("Board "+ cl);
         kafelekSize = 800/width - 20;
         tablica = new Kafelek[width][width];
         tabPawns = new Pawn[width][width];
@@ -52,15 +50,7 @@ public class Board implements Runnable {
         root.setPrefSize(width * kafelekSize, width * kafelekSize);
 
         client = cl;
-        //ToolBar toolbar = new ToolBar( new Button("Poddaj sie"), new Button("Remis"));
-        // Button Poddajbutton = new Button("Poddaj sie");
-        // Button remisButton = new Button("Remis");
 
-        //root.setBottom(toolbar);
-
-        //GridPane grid = new GridPane();
-
-        
         root.setCenter(pane);
 
         /* 
@@ -74,6 +64,7 @@ public class Board implements Runnable {
 
             }
         }
+
         /*
          * Dodawanie pionkow
          */
@@ -146,19 +137,34 @@ public class Board implements Runnable {
         }
     }
 
+    /**
+     * Metoda przemieszczajaca pionek
+     * @param oldX
+     * @param oldY
+     * @param newX
+     * @param newY
+     */
     public void movepionek(int oldX, int oldY, int newX, int newY){
-        //System.out.println(oldX +" "+ " "+ oldY +" " + newX +" " + newY);
         tabPawns[oldX][oldY].move(newX, newY);
         tabPawns[newX][newY] = tabPawns[oldX][oldY];
         tabPawns[oldX][oldY] = null;
     }
 
+    /**
+     * Metoda odpowiadajaca za usuniecie pionka z planszy
+     * @param x
+     * @param y
+     */
     public void killpionek(int x, int y){
-        // pane.getChildren().remove(tabPawns[x][y]);
-        tabPawns[x][y].move(1000, 1000);
+        tabPawns[x][y].move(50, 50);
         tabPawns[x][y] = null;
     }
 
+    /**
+     * Metoda odpowiadajaca za zamienienie pionka na damke
+     * @param x
+     * @param y
+     */
     public void addQueen(int x, int y){
         tabPawns[x][y].setQueen();
     }

@@ -1,8 +1,7 @@
 package warcaby;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * Unit test for our program
@@ -30,7 +29,7 @@ public class AppTest
         game.board[4][6] = 0;
         Assert.assertEquals(1,game.maxKill(2,2,2,0));
         //System.out.println(game.maxKill(4,2,2,0));
-        //    Assert.assertEquals(3,game.maxKill(4,2,2,0));
+        Assert.assertEquals(3,game.maxKill(4,2,2,0));
         game.allKill(2);
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
