@@ -8,7 +8,8 @@ import java.util.Scanner;
 public class Game {
     private Game thisGame = this;
 
-    private String rules;
+    
+    private String rules; 
 
     int remember;
     boolean rulesSetted;
