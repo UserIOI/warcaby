@@ -379,6 +379,21 @@ public class Game {
         Scanner input;
         PrintWriter output;
 
+        public Player(int type){
+            if(type == 1){
+                this.kierunek = -1;
+            }
+            else this.kierunek = 1;
+            this.red = type;
+            if (type == 1) {
+                currentPlayer = this;
+            } else {
+                opponent = currentPlayer;
+                opponent.opponent = this;
+            }
+            thisGame.Start(8,false);
+        }
+
         public Player(Socket socket, int type) throws IOException {
             if(type == 1){
                 this.kierunek = -1;
@@ -551,7 +566,7 @@ public class Game {
          * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia dla damek
          */
 
-        private int maxKillDamki(int xx, int yy, int pionek, int kierunek){
+        public int maxKillDamki(int xx, int yy, int pionek, int kierunek){
             int minRem = 0;
             int x;
             int y;
