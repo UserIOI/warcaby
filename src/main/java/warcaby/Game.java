@@ -336,7 +336,13 @@ public class Game {
             return false;
         }
 
-
+        /*
+         * Jesli masz bicie a nie bijesz
+         */
+        if(pomBoard[oldX][oldY] == globalMax && globalMax > 0){
+            System.out.println("musisz bic !!!");
+            return false;
+        }
 
 
         currentPlayer = currentPlayer.opponent;
