@@ -77,6 +77,8 @@ public class Game {
         }
         System.out.println(pomBoard[oldX][oldY]);
 
+        //System.out.println("pusty commit");
+
         /*
          * Logika bez bic
          */
