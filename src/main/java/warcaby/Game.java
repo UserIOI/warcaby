@@ -82,7 +82,7 @@ public class Game {
     
             globalMax = 0;
     
-            allKill(player);
+            allKill(player.red);
         }
 
         /*
@@ -491,18 +491,18 @@ public class Game {
         /*
          * Funkcja wywolujaca liczenie najwiekszej mozliwej ilosci zbic dla kazdego pionka danego gracza
          */
-        private void allKill(Player player){
+        private void allKill(int pionek){
 
             for(int i = 0; i < width; i++){
                 for(int j = 0; j < width; j++){
-                    if(board[i][j] == player.red){
-                        pomBoard[i][j] = maxKill(i, j, player, 0);
+                    if(board[i][j] == pionek){
+                        pomBoard[i][j] = maxKill(i, j, pionek, 0);
                         wynik = 0;
                         wynikMax = 0;
                         globalMax = Math.max(pomBoard[i][j], globalMax);
                     }
-                    if(board[i][j] == player.red * 10){
-                        pomBoard[i][j] = maxKillDamki(i, j, player, 0);
+                    if(board[i][j] == pionek * 10){
+                        pomBoard[i][j] = maxKillDamki(i, j, pionek, 0);
                         wynik = 0;
                         wynikMax = 0;
                         globalMax = Math.max(pomBoard[i][j], globalMax);
@@ -521,37 +521,37 @@ public class Game {
          * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia dla pionkow
          */
 
-        private int maxKill(int x, int y, Player player, int a){ 
+        private int maxKill(int x, int y, int pionek, int a){ 
             if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
-                if((board[x-1][y-1] == player.opponent.red  && a != 1 ) || (board[x-1][y-1] == player.opponent.red * 10  && a != 1 )){
+                if((board[x-1][y-1] != pionek  && a != 1 ) && (board[x-1][y-1] != pionek * 10  && a != 1 ) && (board[x-1][y-1] != 0  && a != 1 )){
                     if(board[x-2][y-2] == 0){
                         wynik++;
                         System.out.println("1 if");
-                        maxKill(x-2, y-2, player, 4);
+                        maxKill(x-2, y-2, pionek, 4);
                     }
                 }
             if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
-                if((board[x+1][y-1] == player.opponent.red  && a != 2 ) || (board[x+1][y-1] == player.opponent.red * 10  && a != 2 )){
+                if((board[x+1][y-1] != pionek  && a != 2 ) && (board[x+1][y-1] != pionek * 10  && a != 2 ) && (board[x+1][y-1] != 0  && a != 2 )){
                     if(board[x+2][y-2] == 0){
                         wynik++;
                         System.out.println("2 if");
-                        maxKill(x+2, y-2, player, 3);
+                        maxKill(x+2, y-2, pionek, 3);
                     }
                 }
             if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
-                if((board[x+1][y+1] == player.opponent.red  && a != 4 ) || (board[x+1][y+1] == player.opponent.red * 10  && a != 4 )){
+                if((board[x+1][y+1] != pionek  && a != 4 ) && (board[x+1][y+1] != pionek * 10  && a != 4 ) && (board[x+1][y+1] != 0  && a != 4 )){
                     if(board[x+2][y+2] == 0){
                         wynik++;
                         System.out.println("3 if");
-                        maxKill(x+2, y+2, player, 1);
+                        maxKill(x+2, y+2, pionek, 1);
                     }
                 }
             if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1)
-                if((board[x-1][y+1] == player.opponent.red  && a != 3 ) || (board[x-1][y+1] == player.opponent.red * 10  && a != 3 )){
+                if((board[x-1][y+1] != pionek  && a != 3 ) && (board[x-1][y+1] != pionek * 10  && a != 3 ) && (board[x-1][y+1] != 0  && a != 3 )){
                     if(board[x-2][y+2] == 0){
                         wynik++;
                         System.out.println("4 if");
-                        maxKill(x-2, y+2, player, 2);
+                        maxKill(x-2, y+2, pionek, 2);
                     }
                 }
 
@@ -570,7 +570,7 @@ public class Game {
          * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia dla damek
          */
 
-        private int maxKillDamki(int xx, int yy, Player player, int kierunek){
+        private int maxKillDamki(int xx, int yy, int pionek, int kierunek){
             int minRem = 0;
             int x;
             int y;
@@ -579,10 +579,10 @@ public class Game {
                 y = yy;
                 minRem = Math.min(x,y) - 1;
                 while(minRem >= 0){
-                    if(board[x][y] == player.opponent.red || board[x][y] == player.opponent.red * 10){
+                    if(board[x][y] != pionek && board[x][y] != pionek * 10 && board[x][y] != 0){
                         if(board[x-1][y-1] == 0){
                             wynik++;
-                            maxKillDamki(x-1, y-1, player, 4);
+                            maxKillDamki(x-1, y-1, pionek, 4);
                         } 
                     }
                     x--;
@@ -595,10 +595,10 @@ public class Game {
                 y = yy;
                 minRem = Math.min(Math.abs(width-1 - x),y) -1;
                 while(minRem >= 0){
-                    if(board[x][y] == player.opponent.red || board[x][y] == player.opponent.red * 10){
+                    if(board[x][y] != pionek && board[x][y] != pionek * 10 && board[x][y] != 0){
                         if(board[x+1][y-1] == 0){
                             wynik++;
-                            maxKillDamki(x+1, y-1, player, 3);
+                            maxKillDamki(x+1, y-1, pionek, 3);
                         } 
                     }
                     x++;
@@ -611,10 +611,10 @@ public class Game {
                 y = yy;
                 minRem = Math.min(x,Math.abs(width-1 - y)) -1;
                 while(minRem >= 0){
-                    if(board[x][y] == player.opponent.red || board[x][y] == player.opponent.red * 10){
+                    if(board[x][y] != pionek && board[x][y] != pionek * 10 && board[x][y] != 0){
                         if(board[x-1][y+1] == 0){
                             wynik++;
-                            maxKillDamki(x-1, y+1, player, 2);
+                            maxKillDamki(x-1, y+1, pionek, 2);
                         } 
                     }
                     x--;
@@ -627,10 +627,10 @@ public class Game {
                 y = yy;
                 minRem = Math.min(Math.abs(width-1 - x),Math.abs(width-1 - y)) -1;
                 while(minRem >= 0){
-                    if(board[x][y] == player.opponent.red || board[x][y] == player.opponent.red * 10){
+                    if(board[x][y] != pionek && board[x][y] != pionek * 10 && board[x][y] != 0){
                         if(board[x+1][y+1] == 0){
                             wynik++;
-                            maxKillDamki(x+1, y+1, player, 1);
+                            maxKillDamki(x+1, y+1, pionek, 1);
                         } 
                     }
                     x++;
