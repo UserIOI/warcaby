@@ -488,11 +488,11 @@ public class Game {
         }
 
     }
-        
+
         /*
          * Funkcja wywolujaca liczenie najwiekszej mozliwej ilosci zbic dla kazdego pionka danego gracza
          */
-        private void allKill(int pionek){
+        public void allKill(int pionek){
 
             for(int i = 0; i < width; i++){
                 for(int j = 0; j < width; j++){
@@ -522,7 +522,7 @@ public class Game {
          * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia dla pionkow
          */
 
-        private int maxKill(int x, int y, int pionek, int a){ 
+        public int maxKill(int x, int y, int pionek, int a){
             if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1)
                 if((board[x-1][y-1] != pionek  && a != 1 ) && (board[x-1][y-1] != pionek * 10  && a != 1 ) && (board[x-1][y-1] != 0  && a != 1 )){
                     if(board[x-2][y-2] == 0){
