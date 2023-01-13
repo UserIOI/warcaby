@@ -6,11 +6,9 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Game {
-    private Game thisGame = this;
-
     
+    private Game thisGame = this;
     private String rules; 
-
     int remember;
     boolean rulesSetted;
     boolean flag = false;
@@ -19,7 +17,7 @@ public class Game {
     int[][] board;
     Boolean kill = false;
     Boolean edgeColor;
-    int killx, killy;
+    int killx, killy, remx, remy, remjaki;
     int wynik, wynikMax, globalMax;
     int width;
     int[][] pomBoard;
@@ -64,7 +62,7 @@ public class Game {
     }
 
 
-    /*
+    /**
      * Funkcja odpowiadajaca za sprawdzanie poprawnosci ruchu gracza
      */
     public synchronized boolean move(Player player, int oldX, int oldY, int newX, int newY) {
@@ -131,11 +129,6 @@ public class Game {
 
         /*
          * logika do bic pionkami
-         * 
-         * W ktora strone bijemy
-         *  1   2
-         *    x
-         *  3   4
          */
         if(pomBoard[oldX][oldY] == globalMax && board[oldX][oldY] == player.red){
             if(Math.abs(oldX - newX) == 2 || Math.abs(oldY - newY) == 2  ){
@@ -470,8 +463,6 @@ public class Game {
             
 
             if (move(this, oldX, oldY, newX, newY)) {
-                //wynik = 0;
-                //System.out.println(maxKill(oldX, oldY, this));
                 board[newX][newY] = board[oldX][oldY];
                 board[oldX][oldY] = 0;
                 output.println("MOVE"+oldX+oldY+newX+newY);
@@ -503,7 +494,7 @@ public class Game {
 
     }
 
-        /*
+        /**
          * Funkcja wywolujaca liczenie najwiekszej mozliwej ilosci zbic dla kazdego pionka danego gracza
          */
         public void allKill(int pionek){
@@ -512,14 +503,10 @@ public class Game {
                 for(int j = 0; j < width; j++){
                     if(board[i][j] == pionek){
                         pomBoard[i][j] = maxKill(i, j, pionek, 0);
-                        wynik = 0;
-                        wynikMax = 0;
                         globalMax = Math.max(pomBoard[i][j], globalMax);
                     }
                     if(board[i][j] == pionek * 10){
                         pomBoard[i][j] = maxKillDamki(i, j, pionek, 0);
-                        wynik = 0;
-                        wynikMax = 0;
                         globalMax = Math.max(pomBoard[i][j], globalMax);
                     }
                 }
@@ -527,17 +514,12 @@ public class Game {
         }
 
 
-        /* kierunki a (skąd przyszliśmy rekurencyjnie aby nie sprawdzac drogi w ktorej bylismy przed chwila)
-         *  1   2
-         *    x
-         *  3   4
-         */
-        /*
+        /**
          * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia dla pionkow
          */
 
         public int maxKill(int x, int y, int pionek, int a){
-            if(a==0){
+            if(a == 0){
                 wynik = 0;
                 wynikMax = 0;
             }
@@ -580,12 +562,7 @@ public class Game {
    }
 
 
-        /* kierunki a (skąd przyszliśmy rekurencyjnie aby nie sprawdzac drogi w ktorej bylismy przed chwila)
-         *  1   2
-         *    x
-         *  3   4
-         */
-        /*
+        /**
          * Liczenie rekurencyjne najwiekszej liczby pionkow mozliwych do zbicia dla damek
          */
 
@@ -664,7 +641,7 @@ public class Game {
             return wynikMax;
         }
 
-        /*
+        /**
          * Funkcja przechodzaca od punktu odlX,oldY do newX,newY i liczaca ile jest po drodze pionkow
          */
         public int pionkiPoDrodze(int oldX, int oldY, int newX, int newY, int kierunek){
