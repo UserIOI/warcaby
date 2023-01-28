@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"warcaby","l":"App"},{"p":"warcaby","l":"Board"},{"p":"warcaby","l":"Client"},{"p":"warcaby","l":"Game"},{"p":"warcaby","l":"Kafelek"},{"p":"warcaby","l":"NewServer"},{"p":"warcaby","l":"Pawn"},{"p":"warcaby","l":"Game.Player"},{"p":"warcaby","l":"Server"}];updateSearchResults();
