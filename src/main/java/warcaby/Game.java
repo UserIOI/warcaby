@@ -378,8 +378,12 @@ public class Game {
         Socket socket;
         Scanner input;
         PrintWriter output;
+        int bot = 0;
 
         public Player(int type){
+            Socket socket = new Socket();
+            this.socket = socket;
+            this.bot = 1;
             if(type == 1){
                 this.kierunek = -1;
             }
@@ -416,7 +420,9 @@ public class Game {
                 output.println("polskie");
                 output.println("kanadyjskie");
                 gameType = input.nextLine();
+                bot = Integer.parseInt(input.nextLine());
                 System.out.println(gameType);
+                System.out.println("bot: " + bot);
                 if (gameType.equals("niemieckie")) {
                     thisGame.Start(8, false);
                     rules = "080";
@@ -437,11 +443,52 @@ public class Game {
                 output.println("0");
                 output.println(rules);
             }
+            if(bot == 1){
+                thisGame.new Player(2);
+                bot = 0;
+            }
         }
 
         @Override
         public void run() {
             while(true) {
+                if (bot == 1){
+                    System.out.println("wchodzedo if bot");
+                    if (thisGame.currentPlayer == this){
+                        System.out.println("wchodzedo if current platyer");
+                        for(int x = 0;x < 8;x++){
+                            for(int y = 0;y < 8;y++) {
+                                System.out.println("wchodzedo petel");
+                                if(board[x][y]==2) {
+                                    if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
+                                        processMoveCommand(x,y,x-2,y-2);
+                                    }
+                                    if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
+                                        processMoveCommand(x,y,x+2,y-2);
+                                    }
+                                    if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
+                                        processMoveCommand(x,y,x+2,y+2);
+                                    }
+                                    if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
+                                        processMoveCommand(x,y,x-2,y+2);
+                                    }
+                                    if(x-1 >= 0 && x-1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
+                                        processMoveCommand(x,y,x-1,y-1);
+                                    }
+                                    if(x+1 >= 0 && x+1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
+                                        processMoveCommand(x,y,x+1,y-1);
+                                    }
+                                    if(x+1 >= 0 && x+1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
+                                        processMoveCommand(x,y,x+1,y+1);
+                                    }
+                                    if(x-1 >= 0 && x-1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
+                                        processMoveCommand(x,y,x-1,y+1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 processCommands();
             }
         }
@@ -465,8 +512,12 @@ public class Game {
             if (move(this, oldX, oldY, newX, newY)) {
                 board[newX][newY] = board[oldX][oldY];
                 board[oldX][oldY] = 0;
-                output.println("MOVE"+oldX+oldY+newX+newY);
-                opponent.output.println("MOVE"+oldX+oldY+newX+newY);
+                if (this.bot == 0) {
+                    output.println("MOVE" + oldX + oldY + newX + newY);
+                }
+                if (this.opponent.bot == 0) {
+                    opponent.output.println("MOVE" + oldX + oldY + newX + newY);
+                }
                 System.out.println("move");
                 
                 /*
@@ -474,20 +525,32 @@ public class Game {
                  * board[newX][newY] = 20 or 10 w zaleznosci czy board[newX][newY] = 1 or 2
                  */
                 if(kierunek == -1 && newY == 0){ //white
-                    output.println("DAMA"+newX+newY);
-                    opponent.output.println("DAMA"+newX+newY);
+                    if (this.bot == 0) {
+                        output.println("DAMA"+newX+newY);
+                    }
+                    if (this.opponent.bot == 0) {
+                        opponent.output.println("DAMA"+newX+newY);
+                    }
                     board[newX][newY] = 10;
                 }
                 else if(kierunek == 1 && newY == 7){ //red
-                    output.println("DAMA"+newX+newY);
-                    opponent.output.println("DAMA"+newX+newY);
+                    if (this.bot == 0) {
+                        output.println("DAMA"+newX+newY);
+                    }
+                    if (this.opponent.bot == 0) {
+                        opponent.output.println("DAMA"+newX+newY);
+                    }
                     board[newX][newY] = 20;
                 }
             }
             if(kill){
                 board[killx][killy] = 0;
-                output.println("KILL"+killx+killy);
-                opponent.output.println("KILL"+killx+killy);
+                if (this.bot == 0) {
+                    output.println("KILL"+killx+killy);
+                }
+                if (this.opponent.bot == 0) {
+                    opponent.output.println("KILL"+killx+killy);
+                }
                 kill = false;
             }
         }

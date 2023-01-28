@@ -100,6 +100,8 @@ public class Client {
             System.out.println("Który typ gry chcesz wybrac: ");
             out.println(terminal.nextLine());
         }
+        System.out.println("Czy chcesz grac z botem? (1 - tak, 0 - nie)");
+        out.println(terminal.nextLine());
         return in.nextLine();
     }
 
