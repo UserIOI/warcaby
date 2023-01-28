@@ -379,6 +379,7 @@ public class Game {
         Scanner input;
         PrintWriter output;
         int bot = 0;
+        Thread watek;
 
         public Player(int type){
             Socket socket = new Socket();
@@ -396,6 +397,8 @@ public class Game {
                 opponent.opponent = this;
             }
             thisGame.Start(8,false);
+            watek = new Thread(this);
+            watek.start();
         }
 
         public Player(Socket socket, int type) throws IOException {
@@ -452,14 +455,19 @@ public class Game {
         @Override
         public void run() {
             while(true) {
+                try {
+                    this.watek.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (bot == 1){
-                    System.out.println("wchodzedo if bot");
+                    //System.out.println("wchodzedo if bot");
                     if (thisGame.currentPlayer == this){
-                        System.out.println("wchodzedo if current platyer");
+                        //System.out.println("wchodzedo if current platyer");
                         for(int x = 0;x < 8;x++){
                             for(int y = 0;y < 8;y++) {
-                                System.out.println("wchodzedo petel");
-                                if(board[x][y]==2) {
+                                //System.out.println("wchodzedo petel");
+                                if(board[x][y]==2 || board[x][y]==20) {
                                     if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
                                         processMoveCommand(x,y,x-2,y-2);
                                     }
@@ -489,7 +497,7 @@ public class Game {
                         }
                     }
                 }
-                processCommands();
+                else processCommands();
             }
         }
 
