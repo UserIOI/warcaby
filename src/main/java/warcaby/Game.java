@@ -3,12 +3,14 @@ package warcaby;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
     
     private Game thisGame = this;
     private String rules; 
+    Random random = new Random();
     int remember;
     boolean rulesSetted;
     boolean flag = false;
@@ -86,13 +88,13 @@ public class Game {
         /*
          * Wypisanie tablicy z mozliwosciami bic
          */
-        for(int i = 0; i < width; i++){
-            for(int j = 0; j < width; j++){
-                System.out.print(pomBoard[j][i] + " ");
-            }
-            System.out.println(" ");
-        }
-        System.out.println(pomBoard[oldX][oldY]);
+        // for(int i = 0; i < width; i++){
+        //     for(int j = 0; j < width; j++){
+        //         System.out.print(pomBoard[j][i] + " ");
+        //     }
+        //     System.out.println(" ");
+        // }
+        // System.out.println(pomBoard[oldX][oldY]);
 
         /*
          * Logika bez bic
@@ -342,7 +344,7 @@ public class Game {
         /*
          * Poruszanie sie do tylu bez bicia
          */
-        if(Math.abs(oldX - newX) == 1 || Math.abs(oldY - newY) == 1  ){
+        if((Math.abs(oldX - newX) == 1 || Math.abs(oldY - newY) == 1 ) && board[oldX][oldY] < 3 ){
             if(player.kierunek == -1 && oldY - newY < 0){ 
                 System.out.println("kierunek -1");
                 return false;
@@ -351,7 +353,7 @@ public class Game {
                 return false;
             }
         }
-        if(Math.abs(oldX - newX) == 2 || Math.abs(oldY - newY) == 2  ){
+        if((Math.abs(oldX - newX) == 2 || Math.abs(oldY - newY) == 2 ) && board[oldX][oldY] < 3 ){
             System.out.println("2 w ruchu bez bicia");
             return false;
         }
@@ -380,6 +382,7 @@ public class Game {
         PrintWriter output;
         int bot = 0;
         Thread watek;
+        int local;
 
         public Player(int type){
             Socket socket = new Socket();
@@ -396,7 +399,7 @@ public class Game {
                 opponent = currentPlayer;
                 opponent.opponent = this;
             }
-            thisGame.Start(8,false);
+            //thisGame.Start(8,false);
             watek = new Thread(this);
             watek.start();
         }
@@ -456,7 +459,7 @@ public class Game {
         public void run() {
             while(true) {
                 try {
-                    this.watek.sleep(300);
+                    this.watek.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -464,33 +467,41 @@ public class Game {
                     //System.out.println("wchodzedo if bot");
                     if (thisGame.currentPlayer == this){
                         //System.out.println("wchodzedo if current platyer");
-                        for(int x = 0;x < 8;x++){
-                            for(int y = 0;y < 8;y++) {
+                        for(int x = 0;x < width;x++){
+                            for(int y = 0;y < width;y++) {
                                 //System.out.println("wchodzedo petel");
                                 if(board[x][y]==2 || board[x][y]==20) {
-                                    if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
-                                        processMoveCommand(x,y,x-2,y-2);
-                                    }
-                                    if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
-                                        processMoveCommand(x,y,x+2,y-2);
-                                    }
-                                    if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
-                                        processMoveCommand(x,y,x+2,y+2);
-                                    }
-                                    if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
-                                        processMoveCommand(x,y,x-2,y+2);
-                                    }
-                                    if(x-1 >= 0 && x-1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
-                                        processMoveCommand(x,y,x-1,y-1);
-                                    }
-                                    if(x+1 >= 0 && x+1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
-                                        processMoveCommand(x,y,x+1,y-1);
-                                    }
-                                    if(x+1 >= 0 && x+1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
-                                        processMoveCommand(x,y,x+1,y+1);
-                                    }
-                                    if(x-1 >= 0 && x-1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
-                                        processMoveCommand(x,y,x-1,y+1);
+                                    local = random.nextInt(1, 5);
+
+                                    switch(local){
+                                        case 1:
+                                            if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
+                                                processMoveCommand(x,y,x-2,y-2);
+                                            }
+                                            if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
+                                                processMoveCommand(x,y,x+2,y-2);
+                                            }
+                                        case 2:
+                                            if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
+                                                processMoveCommand(x,y,x+2,y+2);
+                                            }
+                                            if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
+                                                processMoveCommand(x,y,x-2,y+2);
+                                            }
+                                        case 3:
+                                            if(x-1 >= 0 && x-1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
+                                                processMoveCommand(x,y,x-1,y-1);
+                                            }
+                                            if(x+1 >= 0 && x+1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
+                                                processMoveCommand(x,y,x+1,y-1);
+                                            }
+                                        case 4:
+                                            if(x+1 >= 0 && x+1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
+                                                processMoveCommand(x,y,x+1,y+1);
+                                            }
+                                            if(x-1 >= 0 && x-1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
+                                                processMoveCommand(x,y,x-1,y+1);
+                                            }
                                     }
                                 }
                             }
