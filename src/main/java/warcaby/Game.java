@@ -472,36 +472,31 @@ public class Game {
                                 //System.out.println("wchodzedo petel");
                                 if(board[x][y]==2 || board[x][y]==20) {
                                     local = random.nextInt(1, 5);
-
-                                    switch(local){
-                                        case 1:
-                                            if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
-                                                processMoveCommand(x,y,x-2,y-2);
-                                            }
-                                            if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
-                                                processMoveCommand(x,y,x+2,y-2);
-                                            }
-                                        case 2:
-                                            if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
-                                                processMoveCommand(x,y,x+2,y+2);
-                                            }
-                                            if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
-                                                processMoveCommand(x,y,x-2,y+2);
-                                            }
-                                        case 3:
-                                            if(x-1 >= 0 && x-1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
-                                                processMoveCommand(x,y,x-1,y-1);
-                                            }
-                                            if(x+1 >= 0 && x+1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
-                                                processMoveCommand(x,y,x+1,y-1);
-                                            }
-                                        case 4:
-                                            if(x+1 >= 0 && x+1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
-                                                processMoveCommand(x,y,x+1,y+1);
-                                            }
-                                            if(x-1 >= 0 && x-1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
-                                                processMoveCommand(x,y,x-1,y+1);
-                                            }
+                                    if(local == 1){
+                                        if(x-2 >= 0 && x-2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
+                                            processMoveCommand(x,y,x-2,y-2);
+                                        }
+                                        if(x+2 >= 0 && x+2 <= width-1 && y-2 >= 0 && y-2 <= width-1) {
+                                            processMoveCommand(x,y,x+2,y-2);
+                                        }
+                                        if(x+2 >= 0 && x+2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
+                                            processMoveCommand(x,y,x+2,y+2);
+                                        }
+                                        if(x-2 >= 0 && x-2 <= width-1 && y+2 >= 0 && y+2 <= width-1) {
+                                            processMoveCommand(x,y,x-2,y+2);
+                                        }
+                                        if(x-1 >= 0 && x-1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
+                                            processMoveCommand(x,y,x-1,y-1);
+                                        }
+                                        if(x+1 >= 0 && x+1 <= width-1 && y-1 >= 0 && y-1 <= width-1) {
+                                            processMoveCommand(x,y,x+1,y-1);
+                                        }
+                                        if(x+1 >= 0 && x+1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
+                                            processMoveCommand(x,y,x+1,y+1);
+                                        }
+                                        if(x-1 >= 0 && x-1 <= width-1 && y+1 >= 0 && y+1 <= width-1) {
+                                            processMoveCommand(x,y,x-1,y+1);
+                                        }
                                     }
                                 }
                             }
